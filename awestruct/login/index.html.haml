@@ -1,0 +1,19 @@
+---
+title: Log In
+layout: noauth
+script: /js/login.js
+---
+%form.row.ajax{:action => '/login/', :method => 'post', 'data-callback' => 'login-success'}
+  .columns.medium-3.large-4.show-for-medium
+    &nbsp;
+  .large-4.medium-6.columns
+    %label
+      Email
+      %input#log-in-email{name: 'email', placeholder: 'me@example.com', type: 'email', required: true}
+    %label
+      Password
+      %input#log-in-password{name: 'password', placeholder: '******************************', type: 'password', required: true}
+    .text-center.medium-margin-top
+      %button.button.large.no-margin{:type => 'submit'} Log In
+  .columns.medium-3.large-4.show-for-medium
+    &nbsp;

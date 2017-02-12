@@ -1,0 +1,17 @@
+---
+layout: full-width
+---
+.off-canvas-wrapper
+  .off-canvas-wrapper-inner{'data-off-canvas-wrapper' => ''}
+    .off-canvas-content.invert{'data-off-canvas-content' => ''}
+      .float-right{'data-toggle' => 'main-navigation'}
+        %button.menu-icon
+      .row.columns
+        %h1 #{page.title}
+        ~ content
+    #main-navigation.off-canvas.position-right{'data-off-canvas' => ''}
+      %h4
+        %a{href: '/'} Priori
+      %ul.vertical.menu{'data-drilldown' => ''}
+        %li
+          %a{href: '/logout/'} Log Out

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Log In - Priori</title>
+    <link href="/css/vendor/foundation.min.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="/images/favicon.ico" rel="shortcut icon">
+    <link href="/images/apple-touch-icon.png" rel="apple-touch-startup-image">
+    <script src="/js/vendor/jquery.min.js"></script>
+    <script src="/js/vendor/foundation.min.js"></script>
+  </head>
+  <body>
+    <div class="row columns">
+      <h1>Log In</h1>
+      <hr class="no-margin-top">
+    </div>
+    <main class="row columns medium-margin-top large-margin-bottom">
+      <form action="/login/" class="row ajax" data-callback="login-success" method="post">
+        <div class="columns medium-3 large-4 show-for-medium">
+          &nbsp;
+        </div>
+        <div class="large-4 medium-6 columns">
+          <label>
+            Email
+            <input id="log-in-email" name="email" placeholder="me@example.com" required type="email">
+          </label>
+          <label>
+            Password
+            <input id="log-in-password" name="password" placeholder="******************************" required type="password">
+          </label>
+          <div class="text-center medium-margin-top">
+            <button class="button large no-margin" type="submit">Log In</button>
+          </div>
+        </div>
+        <div class="columns medium-3 large-4 show-for-medium">
+          &nbsp;
+        </div>
+      </form>
+    </main>
+    <div class="messages">
+      <div class="error template"></div>
+      <div class="message template"></div>
+    </div>
+    <script src="/js/app.js"></script>
+    <script src="/js/login.js"></script>
+  </body>
+</html>

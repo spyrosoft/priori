@@ -1,0 +1,233 @@
+$fg-color-primary: #ffffff
+$fg-color-secondary: #d0d0d0
+$bg-color-primary: #000000
+$bg-color-secondary: #020202
+
+$error-bg-color-primary: #ff9999
+$error-bg-color-secondary: #ff6060
+$message-bg-color-primary: #9999ff
+$message-bg-color-secondary: #6060ff
+
+$tiny-spacing: 0.2rem
+$small-spacing: 1rem
+$medium-spacing: 2rem
+$large-spacing: 4rem
+$huge-spacing: 10rem
+
+
+/* Colors
+
+.error
+	background-color: $error-bg-color-primary
+	color: $bg-color-primary
+
+.error:hover
+	background-color: $error-bg-color-secondary
+
+.message
+	background-color: $message-bg-color-primary
+	color: $bg-color-primary
+
+.message:hover
+	background-color: $message-bg-color-secondary
+
+.issue
+	border-color: $error-bg-color-primary !important
+	background-color: $error-bg-color-secondary !important
+
+.standard-fg-color
+	color: $fg-color-primary
+
+.standard-bg-color
+	background-color: $bg-color-primary
+
+.inverted-fg-color
+	color: $bg-color-primary
+
+.inverted-bg-color
+	background-color: $fg-color-primary
+
+.standard-border-and-bg-and-fg
+	background-color: $bg-color-primary
+	color: $fg-color-primary
+	border-color: $fg-color-primary
+
+.inverted-border-and-bg-and-fg
+	background-color: $fg-color-primary
+	color: $bg-color-primary
+	border-color: $bg-color-primary
+
+body,
+.off-canvas
+	@extend .standard-fg-color
+	@extend .standard-bg-color
+
+h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
+	@extend .standard-fg-color
+
+.button
+	@extend .inverted-fg-color
+	@extend .inverted-bg-color
+
+.button:hover, .button:focus
+	@extend .standard-fg-color
+	@extend .standard-bg-color
+
+.js-off-canvas-exit
+	background-color: rgba( 0, 0, 0, 0.5 )
+
+.menu-icon::after, .menu-icon:hover::after
+	background-color: $fg-color-primary
+	box-shadow: 0 7px 0 $fg-color-primary, 0 14px $fg-color-primary
+
+.is-drilldown-submenu
+	background-color: $fg-color-primary
+
+.border-left-only-fg-color-primary
+	border-color: transparent transparent transparent $fg-color-primary
+.border-right-only-bg-color-primary
+	border-color: transparent $bg-color-primary transparent transparent
+.border-left-only-bg-color-primary
+	border-color: transparent transparent transparent $bg-color-primary
+.border-right-only-fg-color-primary
+	border-color: transparent $fg-color-primary transparent transparent
+
+.is-drilldown-submenu-parent>a::after
+	@extend .border-left-only-fg-color-primary
+.js-drilldown-back::before
+	@extend .border-right-only-bg-color-primary
+
+.is-drilldown-submenu a
+	@extend .inverted-fg-color
+
+[type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
+	@extend .standard-border-and-bg-and-fg
+
+[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
+	@extend .inverted-border-and-bg-and-fg
+
+.invert,
+.invert .invert .invert,
+.invert .invert .invert .invert .invert,
+.invert .invert .invert .invert .invert .invert .invert
+	@extend .inverted-fg-color
+	@extend .inverted-bg-color
+	
+	h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
+		@extend .inverted-fg-color
+	
+	.button
+		@extend .standard-fg-color
+		@extend .standard-bg-color
+	
+	.button:hover, .button:focus
+		@extend .inverted-fg-color
+		@extend .inverted-bg-color
+	
+	.menu-icon::after, .menu-icon:hover::after
+		background-color: $bg-color-primary
+		box-shadow: 0 7px 0 $bg-color-primary, 0 14px $bg-color-primary
+	
+	.is-drilldown-submenu
+		background-color: $bg-color-primary
+	
+	.is-drilldown-submenu-parent>a::after
+		@extend .border-left-only-bg-color-primary
+	.js-drilldown-back::before
+		@extend .border-right-only-fg-color-primary
+	
+	.is-drilldown-submenu a
+		@extend .standard-fg-color
+	
+	[type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
+		@extend .inverted-border-and-bg-and-fg
+		
+	[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
+		@extend .standard-border-and-bg-and-fg
+
+
+
+.invert .invert,
+.invert .invert .invert .invert,
+.invert .invert .invert .invert .invert .invert,
+.invert .invert .invert .invert .invert .invert .invert .invert
+	@extend .standard-fg-color
+	@extend .standard-bg-color
+	
+	h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
+		@extend .standard-fg-color
+	
+	.button
+		@extend .button
+	
+	.button:hover, .button:focus
+		@extend .button:hover
+	
+	.menu-icon::after, .menu-icon:hover::after
+		@extend .menu-icon::after
+	
+	.is-drilldown-submenu
+		@extend .is-drilldown-submenu
+	
+	.is-drilldown-submenu-parent>a::after
+		@extend .border-left-only-fg-color-primary
+	.js-drilldown-back::before
+		@extend .border-right-only-bg-color-primary
+	
+	.is-drilldown-submenu a
+		@extend .inverted-fg-color
+	
+	[type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
+		@extend .standard-border-and-bg-and-fg
+		
+	[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
+		@extend .inverted-border-and-bg-and-fg
+
+
+/* Spacing
+
+h1, h2, h3, h4, h5, h6
+	line-height: 100%
+
+h1, h2, h3, h4, h5, h6
+	padding: $medium-spacing
+	margin: 0
+
+ul, ol
+	margin-left: $medium-spacing
+	margin-top: 0
+
+.no-margin
+	margin: 0
+
+.no-padding
+	padding: 0
+
+.no-spacing
+	margin: 0
+	padding: 0
+
+.menu-icon
+	margin: 0.5rem
+
+.row>.column:last-child:not(:first-child), .row>.columns:last-child:not(:first-child)
+	float: left
+
+
+/* General
+
+.template
+	display: none
+
+.messages
+	width: 100%
+	position: absolute
+	top: 0
+	left: 0
+
+.error, .message
+	padding: $medium-spacing
+	padding-right: $large-spacing
+	border-bottom: 1px solid $fg-color-primary
+	background-position: right top
+	background-repeat: no-repeat
