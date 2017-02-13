@@ -6,9 +6,8 @@ import (
 )
 
 type NewListJSON struct {
-	Success bool   `json:"success"`
-	ID      int    `json:"name"`
-	Name    string `json:"name"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 func newList(r *http.Request) (results string) {
@@ -23,7 +22,7 @@ func newList(r *http.Request) (results string) {
 	}
 	userID, _ := cookieIntValue("user-id", r)
 	var listID int
-	err := db.QueryRow("INSERT INTO user_lists (user_id, name) VALUES ($1, $2)", userID, newListName).Scan(&listID)
+	err := db.QueryRow("INSERT INTO user_lists (user_id, name) VALUES ($1, $2) RETURNING id", userID, newListName).Scan(&listID)
 	if err != nil {
 		resultsBytes, _ := json.Marshal(ErrorJSON{
 			Errors: []string{"An error prevented us from adding the new list to the database."},
@@ -33,9 +32,8 @@ func newList(r *http.Request) (results string) {
 		return
 	}
 	resultsBytes, _ := json.Marshal(NewListJSON{
-		Success: true,
-		ID:      listID,
-		Name:    newListName,
+		ID:   listID,
+		Name: newListName,
 	})
 	results = string(resultsBytes)
 	return
@@ -51,7 +49,7 @@ func allLists(r *http.Request) (results string) {
 		results = string(resultsBytes)
 		return
 	}
-	err := db.QueryRow("SELECT TO_JSON(ARRAY_AGG(lists)) FROM (SELECT id, name FROM user_lists WHERE user_id = $1) lists", userID).Scan(results)
+	err := db.QueryRow("SELECT TO_JSON(ARRAY_AGG(lists)) FROM (SELECT id, name FROM user_lists WHERE user_id = $1) lists", userID).Scan(&results)
 	if err != nil {
 		resultsBytes, _ := json.Marshal(ErrorJSON{
 			Errors: []string{"An error prevented us from looking up your lists."},

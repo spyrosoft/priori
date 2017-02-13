@@ -17,10 +17,18 @@ $('form.ajax').submit(ajax_form_submission);
 
 function ajax_form_submission(submit_event) {
 	submit_event.preventDefault();
+	var post_url = $(this).attr('action');
 	var post_data = $(this).serialize();
 	var callback_name = $(this).attr('data-callback');
-	var post_url = $(this).attr('action');
 	ajax_submission(post_url, post_data, callback_name);
+}
+
+function api_call(post_data, callback_name) {
+	ajax_submission(
+		'/api/',
+		post_data,
+		callback_name
+	);
 }
 
 function ajax_submission(post_url, post_data, callback_name) {
@@ -36,18 +44,18 @@ function ajax_submission(post_url, post_data, callback_name) {
 		.fail(ajax_request_failure);
 }
 
-function ajax_response_success_or_errors(form_data, response_data, form_callback_name) {
+function ajax_response_success_or_errors(post_data, response_data, callback_name) {
 	try {
 		var response = JSON.parse(response_data);
-		if (response.success === true) {
-			if (form_callback_name !== undefined
-				&& success_response_callbacks[form_callback_name] !== undefined) {
-				success_response_callbacks[form_callback_name](form_data, response);
+		if (response.success === false) {
+			ajax_request_response_errors(response);
+		} else {
+			if (callback_name !== undefined
+				&& success_response_callbacks[callback_name] !== undefined) {
+				success_response_callbacks[callback_name](post_data, response);
 			} else {
 				display_message('Success');
 			}
-		} else {
-			ajax_request_response_errors(response);
 		}
 		//TODO: Handle unexpected JSON responses
 	} catch (error) {
@@ -58,12 +66,12 @@ function ajax_response_success_or_errors(form_data, response_data, form_callback
 function ajax_request_response_errors(response) {
 	for (var response_type in error_response_types_and_callbacks) {
 		if (typeof response[response_type] !== 'undefined') {
-			ajax_form_actions(response[response_type], error_response_types_and_callbacks[response_type]);
+			ajax_response_actions(response[response_type], error_response_types_and_callbacks[response_type]);
 		}
 	}
 }
 
-function ajax_form_actions(actions, callback) {
+function ajax_response_actions(actions, callback) {
 	if (actions === null || actions.length === undefined || actions.length === 0) {return;}
 	for (var i = 0; i < actions.length; i++) {
 		callback(actions[i]);

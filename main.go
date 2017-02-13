@@ -34,6 +34,7 @@ var (
 )
 
 type ErrorJSON struct {
+	Success  bool     `json:"success"`
 	Errors   []string `json:"errors"`
 	Messages []string `json:"messages"`
 	Fields   []string `json:"fields"`
@@ -54,6 +55,7 @@ func main() {
 	router.HandleMethodNotAllowed = false
 
 	router.GET("/", authorize(serveStaticFilesOr404Handler))
+	router.GET("/lists/", authorize(serveStaticFilesOr404Handler))
 
 	router.POST("/logout/", logOutAjax)
 	router.GET("/logout/", logOut)

@@ -27,7 +27,8 @@
               <a class="button"></a>
             </div>
             <div class="list-items"></div>
-            <form action="/new-list/" class="ajax row" data-callback="new-list-success" method="post">
+            <form action="/api/" class="ajax row" data-callback="new-list-success" method="post">
+              <input name="action" type="hidden" value="new-list">
               <div class="columns large-6 medium-6 small-10">
                 <input class="input-group-field new-list-name" name="new-list-name" placeholder="New List" required type="text">
               </div>

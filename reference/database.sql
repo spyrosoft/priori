@@ -24,6 +24,7 @@ CREATE TABLE user_sessions (
 CREATE TABLE user_lists (
 	id SERIAL PRIMARY KEY,
 	user_id INT REFERENCES users(id),
+	parent_id INT,
 	name TEXT NOT NULL
 );
 

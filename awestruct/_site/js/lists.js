@@ -1,28 +1,36 @@
-success_response_callbacks['reset-lists'] = populate_lists;
-
 function reset_lists() {
 	$('.list-items').html('');
-	ajax_submission(
-		'/api/',
+	api_call(
 		{'action': 'lists'},
-		populate_lists
+		'populate-lists'
 	);
 }
 
-function populate_lists(list_data) {
-	console.log(list_data)
-	//populate_lists();
+success_response_callbacks['populate-lists'] = populate_lists_callback;
+
+function populate_lists_callback(post_data, lists_data) {
+	for (var i = 0; i < lists_data.length; i++) {
+		add_list(lists_data[i]['name'], lists_data[i]['id']);
+	}
 }
 
-function add_list(list_name) {
+function add_list(name, id) {
 	var list_template = $('.list-item.template')[0];
-	$(list_template).find('a').html(list_name);
+	$(list_template).find('a')
+		.html(name)
+		.attr('href', '/list/#' + id);
 	use_template(list_template, '.list-items');
 }
 
-function new_list_success(form_json, response_json) {
-	add_list(response_json['name']);
+
+
+success_response_callbacks['new-list-success'] = new_list_success;
+
+function new_list_success(post_data, new_list_data) {
+	add_list(new_list_data['name'], new_list_data['id']);
 	$('.new-list-name').first().val('');
 }
 
-success_response_callbacks['new-list-success'] = new_list_success;
+
+
+reset_lists();
