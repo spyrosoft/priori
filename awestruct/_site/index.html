@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="ie=edge" http-equiv="x-ua-compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>What's Next? - Priori</title>
+    <title>Priori - What's Most Important?</title>
     <link href="/css/vendor/foundation.min.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
     <link href="/images/favicon.ico" rel="shortcut icon">
@@ -22,7 +22,7 @@
             <button class="menu-icon"></button>
           </div>
           <div class="row columns">
-            <h1>What's Next?</h1>
+            <h1>Priori</h1>
             <div class="task template">
               <a class="button"></a>
             </div>
@@ -37,19 +37,19 @@
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Difficulty:
-                  <input class="new-task-difficulty" name="difficulty" required type="number">
+                  <input class="new-task-difficulty" max="2147483647" min="0" name="difficulty" required type="number">
                 </label>
               </div>
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Short Term:
-                  <input class="new-task-short-term" name="short-term" required type="number">
+                  <input class="new-task-short-term" max="2147483647" min="0" name="short-term" required type="number">
                 </label>
               </div>
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Long Term:
-                  <input class="new-task-long-term" name="long-term" required type="number">
+                  <input class="new-task-long-term" max="2147483647" min="0" name="long-term" required type="number">
                 </label>
               </div>
               <div class="columns large-1 medium-1 small-3">
@@ -59,6 +59,8 @@
                 </label>
               </div>
             </form>
+            <hr>
+            <h2>What's Next?</h2>
             <div class="tasks"></div>
           </div>
         </div>
@@ -66,6 +68,7 @@
           <h4>
             <a href="/">Priori</a>
           </h4>
+          <hr class="no-margin-top">
           <ul class="vertical menu" data-drilldown="">
             <li>
               <a href="/logout/">Log Out</a>

@@ -1,5 +1,5 @@
 ---
-title: What's Next?
+title: Priori
 layout: general
 script: /js/tasks.js
 include_utilities: true
@@ -15,17 +15,19 @@ include_utilities: true
   .columns.large-2.medium-2.small-3
     %label
       Difficulty:
-      %input.new-task-difficulty{type: 'number', name: 'difficulty', required: true}
+      %input.new-task-difficulty{type: 'number', name: 'difficulty', required: true, min: 0, max: 2147483647}
   .columns.large-2.medium-2.small-3
     %label
       Short Term:
-      %input.new-task-short-term{type: 'number', name: 'short-term', required: true}
+      %input.new-task-short-term{type: 'number', name: 'short-term', required: true, min: 0, max: 2147483647}
   .columns.large-2.medium-2.small-3
     %label
       Long Term:
-      %input.new-task-long-term{type: 'number', name: 'long-term', required: true}
+      %input.new-task-long-term{type: 'number', name: 'long-term', required: true, min: 0, max: 2147483647}
   .columns.large-1.medium-1.small-3
     %label
       &nbsp;
       %button.button.expand{type: 'submit'} +
+%hr
+%h2 What's Next?
 .tasks

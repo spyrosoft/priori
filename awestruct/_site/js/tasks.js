@@ -33,4 +33,5 @@ function new_task_success(post_data, new_task_data) {
 
 
 
+$('.new-task').select();
 reset_tasks();

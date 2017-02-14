@@ -190,8 +190,18 @@ h1, h2, h3, h4, h5, h6
 	line-height: 100%
 
 h1, h2, h3, h4, h5, h6
-	padding: $medium-spacing
+	padding-top: $medium-spacing
+	padding-bottom: $medium-spacing
 	margin: 0
+
+.off-canvas
+	padding: $medium-spacing
+	
+	.menu>li>a
+		padding-left: 0
+	
+	h1, h2, h3, h4, h5, h6
+		padding-top: 0
 
 ul, ol
 	margin-left: $medium-spacing
@@ -199,6 +209,9 @@ ul, ol
 
 .no-margin
 	margin: 0
+
+.no-margin-top
+	margin-top: 0
 
 .no-padding
 	padding: 0

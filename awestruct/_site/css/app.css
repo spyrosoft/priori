@@ -94,48 +94,63 @@ h1, h2, h3, h4, h5, h6 {
 
 /* line 192, /home/path/sites/priori/awestruct/css/app.sass */
 h1, h2, h3, h4, h5, h6 {
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   margin: 0; }
 
-/* line 196, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 197, /home/path/sites/priori/awestruct/css/app.sass */
+.off-canvas {
+  padding: 2rem; }
+/* line 200, /home/path/sites/priori/awestruct/css/app.sass */
+.off-canvas .menu > li > a {
+  padding-left: 0; }
+/* line 203, /home/path/sites/priori/awestruct/css/app.sass */
+.off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6 {
+  padding-top: 0; }
+
+/* line 206, /home/path/sites/priori/awestruct/css/app.sass */
 ul, ol {
   margin-left: 2rem;
   margin-top: 0; }
 
-/* line 200, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 210, /home/path/sites/priori/awestruct/css/app.sass */
 .no-margin {
   margin: 0; }
 
-/* line 203, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 213, /home/path/sites/priori/awestruct/css/app.sass */
+.no-margin-top {
+  margin-top: 0; }
+
+/* line 216, /home/path/sites/priori/awestruct/css/app.sass */
 .no-padding {
   padding: 0; }
 
-/* line 206, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 219, /home/path/sites/priori/awestruct/css/app.sass */
 .no-spacing {
   margin: 0;
   padding: 0; }
 
-/* line 210, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 223, /home/path/sites/priori/awestruct/css/app.sass */
 .menu-icon {
   margin: 0.5rem; }
 
-/* line 213, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 226, /home/path/sites/priori/awestruct/css/app.sass */
 .row > .column:last-child:not(:first-child), .row > .columns:last-child:not(:first-child) {
   float: left; }
 
 /* General */
-/* line 219, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 232, /home/path/sites/priori/awestruct/css/app.sass */
 .template {
   display: none; }
 
-/* line 222, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 235, /home/path/sites/priori/awestruct/css/app.sass */
 .messages {
   width: 100%;
   position: absolute;
   top: 0;
   left: 0; }
 
-/* line 228, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 241, /home/path/sites/priori/awestruct/css/app.sass */
 .error, .message {
   padding: 2rem;
   padding-right: 4rem;
