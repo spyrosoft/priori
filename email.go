@@ -86,7 +86,7 @@ func sendEmailFrom(to string, fromName string, from string, subject string, mess
 	return
 }
 
-func notifyAdminAjax(r *http.Request) (results string) {
+func apiNotifyAdmin(r *http.Request) (results string) {
 	message := r.PostFormValue("message")
 	if r.PostFormValue("token") != "ytMOJPatwt" || message == "" {
 		return

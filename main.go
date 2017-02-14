@@ -55,7 +55,6 @@ func main() {
 	router.HandleMethodNotAllowed = false
 
 	router.GET("/", authorize(serveStaticFilesOr404Handler))
-	router.GET("/lists/", authorize(serveStaticFilesOr404Handler))
 
 	router.POST("/logout/", logOutAjax)
 	router.GET("/logout/", logOut)
@@ -75,9 +74,9 @@ func serveStaticFilesOr404Handler(w http.ResponseWriter, r *http.Request, ps htt
 
 func api(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	allowedFunctions := map[string]func(*http.Request) string{
-		"notify-admin": notifyAdminAjax,
-		"lists":        allLists,
-		"new-list":     newList,
+		"notify-admin": apiNotifyAdmin,
+		"tasks":        apiTasks,
+		"new-task":     apiNewTask,
 	}
 	if r.PostFormValue("action") == "" {
 		serve404(w)

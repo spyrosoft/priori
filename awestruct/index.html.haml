@@ -1,17 +1,31 @@
 ---
 title: What's Next?
 layout: general
-script: /js/lists.js
+script: /js/tasks.js
 include_utilities: true
-include_promise: true
 ---
-.list-item.template
+.task.template
   %a.button
-.list-items
-%form.ajax.row{method: 'post', action: '/api/', 'data-callback' => 'new-list-success'}
-  %input{type: 'hidden', name: 'action', value: 'new-list'}
-  .columns.large-6.medium-6.small-10
-    %input.input-group-field.new-list-name{type: 'text', placeholder: 'New List', name: 'new-list-name', required: true}
-  .columns.large-2.medium-2.small-2
-    %button.button.expand.new-list-item{type: 'submit'} +
+%form.ajax.row{method: 'post', action: '/api/', 'data-callback' => 'new-task-success'}
+  %input{type: 'hidden', name: 'parent-id', value: 0}
   .columns.large-5.medium-5
+    %label
+      New Task:
+      %input.new-task{type: 'text', name: 'task', required: true}
+  .columns.large-2.medium-2.small-3
+    %label
+      Difficulty:
+      %input.new-task-difficulty{type: 'number', name: 'difficulty', required: true}
+  .columns.large-2.medium-2.small-3
+    %label
+      Short Term:
+      %input.new-task-short-term{type: 'number', name: 'short-term', required: true}
+  .columns.large-2.medium-2.small-3
+    %label
+      Long Term:
+      %input.new-task-long-term{type: 'number', name: 'long-term', required: true}
+  .columns.large-1.medium-1.small-3
+    %label
+      &nbsp;
+      %button.button.expand{type: 'submit'} +
+.tasks

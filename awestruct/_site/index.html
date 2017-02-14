@@ -23,20 +23,43 @@
           </div>
           <div class="row columns">
             <h1>What's Next?</h1>
-            <div class="list-item template">
+            <div class="task template">
               <a class="button"></a>
             </div>
-            <div class="list-items"></div>
-            <form action="/api/" class="ajax row" data-callback="new-list-success" method="post">
-              <input name="action" type="hidden" value="new-list">
-              <div class="columns large-6 medium-6 small-10">
-                <input class="input-group-field new-list-name" name="new-list-name" placeholder="New List" required type="text">
+            <form action="/api/" class="ajax row" data-callback="new-task-success" method="post">
+              <input name="parent-id" type="hidden" value="0">
+              <div class="columns large-5 medium-5">
+                <label>
+                  New Task:
+                  <input class="new-task" name="task" required type="text">
+                </label>
               </div>
-              <div class="columns large-2 medium-2 small-2">
-                <button class="button expand new-list-item" type="submit">+</button>
+              <div class="columns large-2 medium-2 small-3">
+                <label>
+                  Difficulty:
+                  <input class="new-task-difficulty" name="difficulty" required type="number">
+                </label>
               </div>
-              <div class="columns large-5 medium-5"></div>
+              <div class="columns large-2 medium-2 small-3">
+                <label>
+                  Short Term:
+                  <input class="new-task-short-term" name="short-term" required type="number">
+                </label>
+              </div>
+              <div class="columns large-2 medium-2 small-3">
+                <label>
+                  Long Term:
+                  <input class="new-task-long-term" name="long-term" required type="number">
+                </label>
+              </div>
+              <div class="columns large-1 medium-1 small-3">
+                <label>
+                  &nbsp;
+                  <button class="button expand" type="submit">+</button>
+                </label>
+              </div>
             </form>
+            <div class="tasks"></div>
           </div>
         </div>
         <div class="off-canvas position-right" data-off-canvas="" id="main-navigation">
@@ -56,6 +79,6 @@
       <div class="message template"></div>
     </div>
     <script src="/js/app.js"></script>
-    <script src="/js/lists.js"></script>
+    <script src="/js/tasks.js"></script>
   </body>
 </html>
