@@ -88,7 +88,7 @@ func sendEmailFrom(to string, fromName string, from string, subject string, mess
 
 func apiNotifyAdmin(r *http.Request) (results string) {
 	message := r.PostFormValue("message")
-	if r.PostFormValue("token") != "ytMOJPatwt" || message == "" {
+	if r.PostFormValue("token") != "PpPub4GjM4" || message == "" {
 		return
 	}
 	err := notifyAdmin(message)

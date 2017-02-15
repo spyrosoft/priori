@@ -145,7 +145,7 @@ function notify_admin(message) {
 	var server_message = {
 		'function' : 'notify-admin',
 		'message' : message,
-		'token' : 'ytMOJPatwt'
+		'token' : 'PpPub4GjM4'
 	};
 	$.post('/api/', server_message)
 		.fail(notify_admin_fail);
