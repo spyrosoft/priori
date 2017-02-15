@@ -11,17 +11,16 @@ import (
 )
 
 type SiteData struct {
-	LiveOrDev             string            `json:"live-or-dev"`
-	URLPermanentRedirects map[string]string `json:"url-permanent-redirects"`
-	NoReplyAddressName    string            `json:"no-reply-address-name"`
-	NoReplyAddress        string            `json:"no-reply-address"`
-	NoReplyPassword       string            `json:"no-reply-password"`
-	Host                  string            `json:"no-reply-host"`
-	Port                  string            `json:"no-reply-port"`
-	ReplyAddress          string            `json:"reply-address"`
-	AdminEmail            string            `json:"admin-email"`
-	DatabaseName          string            `json:"database-name"`
-	EmailSalt             string            `json:"email-salt"`
+	LiveOrDev          string `json:"live-or-dev"`
+	NoReplyAddressName string `json:"no-reply-address-name"`
+	NoReplyAddress     string `json:"no-reply-address"`
+	NoReplyPassword    string `json:"no-reply-password"`
+	Host               string `json:"no-reply-host"`
+	Port               string `json:"no-reply-port"`
+	ReplyAddress       string `json:"reply-address"`
+	AdminEmail         string `json:"admin-email"`
+	DatabaseName       string `json:"database-name"`
+	EmailSalt          string `json:"email-salt"`
 }
 
 var (
@@ -49,7 +48,6 @@ func main() {
 	loadSiteData()
 	db = connectToDatabase()
 	router := httprouter.New()
-
 	// Allows requests to pass through to NotFound if one method
 	// is there and the other is not
 	router.HandleMethodNotAllowed = false
@@ -62,14 +60,10 @@ func main() {
 	router.POST("/login/", logInAjax)
 	router.GET("/login/", redirectToHomeIfLoggedIn)
 
-	router.POST("/api/", authorizeAjax(api))
+	router.POST("/api/", apiAuthorize(api))
 
-	router.NotFound = http.HandlerFunc(requestCatchAll)
+	router.NotFound = http.HandlerFunc(serveStaticFilesOr404)
 	log.Fatal(http.ListenAndServe(":9000", router))
-}
-
-func serveStaticFilesOr404Handler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	serveStaticFilesOr404(w, r)
 }
 
 func api(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -90,6 +84,10 @@ func api(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 	fmt.Fprint(w, function(r))
+}
+
+func serveStaticFilesOr404Handler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	serveStaticFilesOr404(w, r)
 }
 
 func debug(things ...interface{}) {

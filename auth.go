@@ -20,7 +20,7 @@ func authorize(handle httprouter.Handle) httprouter.Handle {
 	}
 }
 
-func authorizeAjax(handle httprouter.Handle) httprouter.Handle {
+func apiAuthorize(handle httprouter.Handle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		loggedIn, err := isLoggedIn(w, r)
 		if err != nil {
@@ -30,6 +30,7 @@ func authorizeAjax(handle httprouter.Handle) httprouter.Handle {
 		} else if loggedIn {
 			handle(w, r, ps)
 		} else {
+			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(ErrorJSON{
 				Errors: []string{"You must log in first."},
 			})
