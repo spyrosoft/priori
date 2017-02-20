@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/mail"
 	"net/smtp"
+	runtimeDebug "runtime/debug"
 )
 
 func sendEmail(to string, subject string, message string) (err error) {
@@ -16,10 +17,7 @@ func sendEmail(to string, subject string, message string) (err error) {
 }
 
 func sendEmailFrom(to string, fromName string, from string, subject string, message string) (err error) {
-	if !siteDataLoaded {
-		err = errors.New("Outgoing email credentials have not been set. Cannot send message.")
-		return
-	}
+	err = errors.New("Outgoing email credentials have not been set. Cannot send message.")
 
 	fromHeader := mail.Address{fromName, from}
 
@@ -86,19 +84,26 @@ func sendEmailFrom(to string, fromName string, from string, subject string, mess
 	return
 }
 
-func apiNotifyAdmin(r *http.Request) (results string) {
+func apiNotifyAdmin(w http.ResponseWriter, r *http.Request) interface{} {
 	message := r.PostFormValue("message")
 	if r.PostFormValue("token") != "PpPub4GjM4" || message == "" {
-		return
+		return apiResponse{}
 	}
 	err := notifyAdmin(message)
 	if err != nil {
-		resultsBytes, _ := json.Marshal(ErrorJSON{Errors: []string{err.Error()}})
-		results = string(resultsBytes)
-	} else {
-		resultsBytes, _ := json.Marshal(SuccessJSON{Success: true})
-		results = string(resultsBytes)
+		return apiResponse{Errors: []string{err.Error()}}
 	}
+	return apiResponse{Success: true}
+}
+
+func notifyAdminResponse(message string, err error) (response apiResponse) {
+	err = errors.New(err.Error() + "\n" + string(runtimeDebug.Stack()))
+	response = apiResponse{
+		Errors: []string{message, adminNotifiedMessage},
+		Debug:  []string{err.Error()},
+	}
+	responseBytes, _ := json.Marshal(response)
+	notifyAdmin(string(responseBytes))
 	return
 }
 

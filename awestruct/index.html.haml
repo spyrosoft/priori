@@ -4,14 +4,18 @@ layout: standard
 script: /js/tasks.js
 include_utilities: true
 ---
-.row.task.template
+%form.ajax.row.task.template{method: 'post', action: '/api/', 'data-callback' => 'delete-task'}
+  %input{type: 'hidden', name: 'action', value: 'delete-task'}
+  %input.id{type: 'hidden', name: 'task-id', value: 0}
   .column.large-8.medium-8
     %a.task.button
   .difficulty.column.large-1.medium-1.small-3
   .short-term.column.large-1.medium-1.small-3
   .long-term.column.large-1.medium-1.small-3
-  %hr
+  .column.text-right.large-1.medium-1.small-3
+    %button.delete.button.small{type: 'submit', name: 'delete'} X
 %form.ajax.row{method: 'post', action: '/api/', 'data-callback' => 'new-task-success'}
+  %input{type: 'hidden', name: 'action', value: 'new-task'}
   %input{type: 'hidden', name: 'parent-id', value: 0}
   .columns.large-5.medium-5
     %label

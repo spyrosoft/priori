@@ -1,61 +1,73 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
-type NewTaskJSON struct {
-	ID   int    `json:"id"`
-	Task string `json:"task"`
+func apiNewTask(w http.ResponseWriter, r *http.Request) interface{} {
+	ok, response := validateNewTaskPostFormValues(r)
+	if !ok {
+		return response
+	}
+
+	newTask := r.PostFormValue("task")
+	userID, _ := cookieIntValue("user-id", r)
+	difficulty, _ := strconv.Atoi(r.PostFormValue("difficulty"))
+	shortTerm, _ := strconv.Atoi(r.PostFormValue("short-term"))
+	longTerm, _ := strconv.Atoi(r.PostFormValue("long-term"))
+
+	var taskID int
+	err := db.QueryRow("INSERT INTO user_tasks (user_id, task, difficulty, short_term, long_term) VALUES ($1, $2, $3, $4, $5) RETURNING id", userID, newTask, difficulty, shortTerm, longTerm).Scan(&taskID)
+	if err != nil {
+		return notifyAdminResponse("An error occurred while adding your new task to the database.", err)
+	}
+	return userID
 }
 
-func apiNewTask(r *http.Request) (results string) {
-	newTask := r.PostFormValue("task")
-	if newTask == "" {
-		resultsBytes, _ := json.Marshal(ErrorJSON{
-			Errors: []string{"The Task field is required."},
-			Fields: []string{"task"},
-		})
-		results = string(resultsBytes)
-		return
+func validateNewTaskPostFormValues(r *http.Request) (
+	ok bool,
+	response apiResponse,
+) {
+	ok = true
+	var err error
+	task := r.PostFormValue("task")
+	if task == "" {
+		ok = false
+		response.Errors = append(response.Errors, "The Task field is required.")
+		response.Fields = append(response.Fields, "task")
 	}
-	userID, _ := cookieIntValue("user-id", r)
-	var taskID int
-	err := db.QueryRow("INSERT INTO user_tasks (user_id, task) VALUES ($1, $2) RETURNING id", userID, newTask).Scan(&taskID)
-	if err != nil {
-		resultsBytes, _ := json.Marshal(ErrorJSON{
-			Errors: []string{"An error prevented us from adding the new task to the database."},
-			Debug:  []string{err.Error()},
-		})
-		results = string(resultsBytes)
-		return
+	if _, err = strconv.Atoi(r.PostFormValue("difficulty")); err != nil {
+		response.Errors = append(response.Errors, "The Difficulty field must be an integer.")
+		response.Fields = append(response.Fields, "difficulty")
 	}
-	resultsBytes, _ := json.Marshal(NewTaskJSON{
-		ID:   taskID,
-		Task: newTask,
-	})
-	results = string(resultsBytes)
+	if _, err = strconv.Atoi(r.PostFormValue("short-term")); err != nil {
+		response.Errors = append(response.Errors, "The Short Term field must be an integer.")
+		response.Fields = append(response.Fields, "short-term")
+	}
+	if _, err = strconv.Atoi(r.PostFormValue("long-term")); err != nil {
+		response.Errors = append(response.Errors, "The Long Term field must be an integer.")
+		response.Fields = append(response.Fields, "long-term")
+	}
 	return
 }
 
-func apiTasks(r *http.Request) (results string) {
+func apiTasks(w http.ResponseWriter, r *http.Request) interface{} {
 	userID, ok := currentUserID(r)
 	if !ok {
-		resultsBytes, _ := json.Marshal(ErrorJSON{
+		return apiResponse{
 			Errors: []string{"An error prevented us from looking up your tasks."},
 			Debug:  []string{"Could not retrieve the current user id."},
-		})
-		results = string(resultsBytes)
-		return
+		}
 	}
-	err := db.QueryRow("SELECT TO_JSON(ARRAY_AGG(tasks)) FROM (SELECT id, task FROM user_tasks WHERE user_id = $1) tasks", userID).Scan(&results)
+
+	var results string
+	err := db.QueryRow("SELECT TO_JSON(ARRAY_AGG(tasks)) FROM (SELECT id, task, difficulty, short_term, long_term FROM user_tasks WHERE user_id = $1) tasks", userID).Scan(&results)
 	if err != nil {
-		resultsBytes, _ := json.Marshal(ErrorJSON{
+		return apiResponse{
 			Errors: []string{"An error prevented us from looking up your tasks."},
 			Debug:  []string{err.Error()},
-		})
-		results = string(resultsBytes)
+		}
 	}
-	return
+	return results
 }

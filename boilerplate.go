@@ -18,7 +18,6 @@ func loadSiteData() {
 	panicOnErr(err)
 	err = json.Unmarshal(rawSiteData, &siteData)
 	panicOnErr(err)
-	siteDataLoaded = true
 }
 
 func requestCatchAll(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +48,15 @@ func serve404OnErr(err error, w http.ResponseWriter) bool {
 		return true
 	}
 	return false
+}
+
+func serve403(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusForbidden)
+	template, err := ioutil.ReadFile(webRoot + "/error-templates/403.html")
+	if err != nil {
+		template = []byte("Error 403 - Forbidden. Additionally a 403 page template could not be found.")
+	}
+	fmt.Fprint(w, string(template))
 }
 
 func serve404(w http.ResponseWriter) {

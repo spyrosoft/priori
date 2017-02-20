@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -68,24 +67,22 @@ func cookieStringValue(cookieName string, r *http.Request) (value string, ok boo
 	return
 }
 
-func logInAjax(w http.ResponseWriter, r *http.Request, requestParameters httprouter.Params) {
+func apiLogIn(w http.ResponseWriter, r *http.Request) interface{} {
 	err := logInUser(r.PostFormValue("email"), r.PostFormValue("password"), w)
 	if err == errInvalidPassword || err == errLockedAccount {
-		json.NewEncoder(w).Encode(ErrorJSON{
+		return apiResponse{
 			Messages: []string{err.Error()},
 			Fields:   []string{"email", "password"},
-		})
-		return
+		}
 	}
 	if err != nil {
-		json.NewEncoder(w).Encode(ErrorJSON{
+		return apiResponse{
 			Errors:   []string{"An error occurred while trying to log in."},
 			Messages: []string{adminNotifiedMessage},
 			Debug:    []string{err.Error()},
-		})
-		return
+		}
 	}
-	json.NewEncoder(w).Encode(SuccessJSON{Success: true})
+	return apiResponse{Success: true}
 }
 
 func logInUser(email string, password string, w http.ResponseWriter) (err error) {
@@ -160,9 +157,9 @@ func logOut(w http.ResponseWriter, r *http.Request, requestParameters httprouter
 	http.Redirect(w, r, "/login/", 302)
 }
 
-func logOutAjax(w http.ResponseWriter, r *http.Request, requestParameters httprouter.Params) {
+func apiLogOut(w http.ResponseWriter, r *http.Request) interface{} {
 	logOutUser(w, r)
-	json.NewEncoder(w).Encode(SuccessJSON{Success: true})
+	return apiResponse{Success: true}
 }
 
 func logOutUser(w http.ResponseWriter, r *http.Request) {

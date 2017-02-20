@@ -31,8 +31,14 @@ function api_call(post_data, callback_name) {
 
 function ajax_submission(post_url, post_data, callback_name) {
 	var ajax_request_response = function(response_data) {
+		var post_data_object;
+		if (typeof post_data === 'string') {
+			post_data_object = JSON.parse('{"' + decodeURI(post_data).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+		} else {
+			post_data_object = post_data;
+		}
 		ajax_response_success_or_errors(
-			post_data,
+			post_data_object,
 			response_data,
 			callback_name
 		);
@@ -94,7 +100,8 @@ function ajax_request_failure() {
 function debug(message) {
 	if (live_or_dev === 'dev') {
 		display_message('DEBUG: ' + message);
-	} else if (typeof console !== 'undefined' && typeof console.log === 'function') {
+	}
+	if (typeof console !== 'undefined' && typeof console.log === 'function') {
 		console.log(message);
 	}
 }
@@ -141,7 +148,7 @@ function notify_admin(message) {
 		display_error('The attempt to contact an admin has failed. It is possible your internet connection has been interrupted. Otherwise if the issue persists, please contact us directly to resolve the issue.');
 	};
 	var server_message = {
-		'function' : 'notify-admin',
+		'action' : 'notify-admin',
 		'message' : message,
 		'token' : 'PpPub4GjM4'
 	};
