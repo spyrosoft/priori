@@ -12,8 +12,6 @@ var error_response_types_and_callbacks = {
 
 var success_response_callbacks = {};
 
-$('form.ajax').submit(ajax_form_submission);
-
 
 function ajax_form_submission(submit_event) {
 	submit_event.preventDefault();
@@ -90,7 +88,7 @@ function highlight_field(field) {
 }
 
 function ajax_request_failure() {
-	alert('Connection with the server failed. Please check your internet connection. Otherwise, something is wrong on our end - please try again later.');
+	display_error('Connection with the server failed. Please check your internet connection. Otherwise, something is wrong on our end - please try again later.');
 }
 
 function debug(message) {
@@ -150,5 +148,3 @@ function notify_admin(message) {
 	$.post('/api/', server_message)
 		.fail(notify_admin_fail);
 }
-
-$(document).foundation();

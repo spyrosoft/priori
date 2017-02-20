@@ -18,13 +18,16 @@
     %script{src: '/js/vendor/foundation.min.js'}
     -if page.include_utilities
       %script{src: '/js/vendor/utilities.js'}
+    %script{src: '/js/app.js'}
   %body
     ~ content
     .messages
       .error.template
       .message.template
-    %script{src: '/js/app.js'}
     -if page.script
       %script{src: page.script}
     -if page.script2
       %script{src: page.script2}
+    :javascript
+      $(document).foundation();
+      $('form.ajax').submit(ajax_form_submission);
