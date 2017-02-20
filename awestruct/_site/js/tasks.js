@@ -14,12 +14,14 @@ function populate_tasks_callback(post_data, tasks_data) {
 	}
 }
 
-function add_task(task, id) {
+function add_task(task, id, difficulty, short_term, long_term) {
 	var task_template = $('.task.template')[0];
-	$(task_template).find('a')
-		.html(task)
-		.attr('href', '/#' + id);
-	use_template(task_template, '.tasks');
+	var customize_template = function(clone) {
+		$(clone).find('a.task')
+			.html(task)
+			.attr('href', '/#' + id);
+	};
+	use_template(task_template, '.tasks', customize_template);
 }
 
 
@@ -27,7 +29,13 @@ function add_task(task, id) {
 success_response_callbacks['new-task-success'] = new_task_success;
 
 function new_task_success(post_data, new_task_data) {
-	add_task(new_task_data['task'], new_task_data['id']);
+	add_task(
+		new_task_data['task'],
+		new_task_data['id'],
+		new_task_data['difficulty'],
+		new_task_data['short_term'],
+		new_task_data['long_term']
+	);
 	$('new-task').first().val('');
 }
 

@@ -90,7 +90,7 @@ function highlight_field(field) {
 }
 
 function ajax_request_failure() {
-	alert('Connection with the server failed. Please check your internet connection. Otherwise, something is wrong on our end - please try again later.');
+	display_error('Connection with the server failed. Please check your internet connection. Otherwise, something is wrong on our end - please try again later.');
 }
 
 function debug(message) {
