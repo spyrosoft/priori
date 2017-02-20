@@ -138,22 +138,34 @@ ul, ol {
 .row > .column:last-child:not(:first-child), .row > .columns:last-child:not(:first-child) {
   float: left; }
 
+/* line 229, /home/path/sites/priori/awestruct/css/app.sass */
+.off-canvas-content {
+  padding-bottom: 4rem; }
+
 /* General */
-/* line 232, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 235, /home/path/sites/priori/awestruct/css/app.sass */
 .template {
   display: none; }
 
-/* line 235, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 238, /home/path/sites/priori/awestruct/css/app.sass */
 .messages {
   width: 100%;
   position: absolute;
   top: 0;
   left: 0; }
 
-/* line 241, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 244, /home/path/sites/priori/awestruct/css/app.sass */
 .error, .message {
   padding: 2rem;
   padding-right: 4rem;
   border-bottom: 1px solid #ffffff;
   background-position: right top;
   background-repeat: no-repeat; }
+
+/* Specific */
+/* line 254, /home/path/sites/priori/awestruct/css/app.sass */
+.task .total {
+  font-weight: bold;
+  font-size: 200%;
+  line-height: 100%;
+  vertical-align: middle; }

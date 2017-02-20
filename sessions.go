@@ -17,7 +17,7 @@ var (
 )
 
 func isLoggedIn(w http.ResponseWriter, r *http.Request) (isLoggedIn bool, err error) {
-	userID, ok := cookieIntValue("user-id", r)
+	userId, ok := cookieIntValue("user-id", r)
 	if !ok {
 		return
 	}
@@ -27,7 +27,7 @@ func isLoggedIn(w http.ResponseWriter, r *http.Request) (isLoggedIn bool, err er
 		return
 	}
 
-	err = db.QueryRow("SELECT user_id FROM user_sessions WHERE user_id = $1 AND token = $2", userID, token).Scan(&userID)
+	err = db.QueryRow("SELECT user_id FROM user_sessions WHERE user_id = $1 AND token = $2", userId, token).Scan(&userId)
 
 	if err == sql.ErrNoRows {
 		logOutUser(w, r)
@@ -40,7 +40,7 @@ func isLoggedIn(w http.ResponseWriter, r *http.Request) (isLoggedIn bool, err er
 	return
 }
 
-func currentUserID(r *http.Request) (userID int, ok bool) {
+func currentUserId(r *http.Request) (userId int, ok bool) {
 	return cookieIntValue("user-id", r)
 }
 
@@ -86,7 +86,7 @@ func apiLogIn(w http.ResponseWriter, r *http.Request) interface{} {
 }
 
 func logInUser(email string, password string, w http.ResponseWriter) (err error) {
-	userID, err := validEmailAndPasswordUserID(email, password)
+	userId, err := validEmailAndPasswordUserId(email, password)
 	if err == errInvalidPassword || err == errLockedAccount {
 		return
 	}
@@ -94,13 +94,13 @@ func logInUser(email string, password string, w http.ResponseWriter) (err error)
 	deleteExpiredSessions()
 
 	token := generateStringToken(10)
-	_, err = db.Query("INSERT INTO user_sessions (user_id, token) VALUES ($1, $2)", userID, token)
+	_, err = db.Query("INSERT INTO user_sessions (user_id, token) VALUES ($1, $2)", userId, token)
 
 	if err != nil {
 		return
 	}
 
-	newCookie := http.Cookie{Name: "user-id", Value: strconv.Itoa(userID), Path: "/"}
+	newCookie := http.Cookie{Name: "user-id", Value: strconv.Itoa(userId), Path: "/"}
 	http.SetCookie(w, &newCookie)
 	newCookie = http.Cookie{Name: "auth-token", Value: string(token), Path: "/"}
 	http.SetCookie(w, &newCookie)
@@ -108,15 +108,15 @@ func logInUser(email string, password string, w http.ResponseWriter) (err error)
 	return
 }
 
-func validEmailAndPasswordUserID(email string, password string) (validUserID int, err error) {
+func validEmailAndPasswordUserId(email string, password string) (validUserId int, err error) {
 	emailHash, err := scryptHash(email, []byte(siteData.EmailSalt))
 	if err != nil {
 		return
 	}
 
-	var userID int
+	var userId int
 	var passwordHash, passwordSalt []byte
-	err = db.QueryRow("SELECT id, password_hash, password_salt FROM users WHERE email_hash = $1", emailHash).Scan(&userID, &passwordHash, &passwordSalt)
+	err = db.QueryRow("SELECT id, password_hash, password_salt FROM users WHERE email_hash = $1", emailHash).Scan(&userId, &passwordHash, &passwordSalt)
 	if err == sql.ErrNoRows {
 		err = errInvalidPassword
 	}
@@ -134,7 +134,7 @@ func validEmailAndPasswordUserID(email string, password string) (validUserID int
 		return
 	}
 
-	validUserID = userID
+	validUserId = userId
 
 	return
 }
@@ -163,10 +163,10 @@ func apiLogOut(w http.ResponseWriter, r *http.Request) interface{} {
 }
 
 func logOutUser(w http.ResponseWriter, r *http.Request) {
-	userIDCookie, userIDErr := r.Cookie("user-id")
+	userIdCookie, userIdErr := r.Cookie("user-id")
 	tokenCookie, tokenErr := r.Cookie("auth-token")
-	if userIDErr == nil && tokenErr == nil {
-		_, err := db.Query("DELETE FROM user_sessions WHERE user_id = $1 AND token = $2", userIDCookie.Value, tokenCookie.Value)
+	if userIdErr == nil && tokenErr == nil {
+		_, err := db.Query("DELETE FROM user_sessions WHERE user_id = $1 AND token = $2", userIdCookie.Value, tokenCookie.Value)
 		if err != nil {
 			notifyAdmin(err.Error())
 		}

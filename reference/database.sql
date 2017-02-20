@@ -32,3 +32,4 @@ CREATE TABLE user_tasks (
 
 INSERT INTO users (email_hash, password_hash, password_salt) VALUES ('\x6a67524f5d3117d9481dd39fdcffcde682b262e8ebbf64a81a26207413b178d6', '\x228640fa2cdf5cbf6a3e7964ac3035e59a62ddd113a4729b0d2057f2f79e703e', '\x305f94a6b2fb3de2897d');
 INSERT INTO user_tasks (user_id, task, difficulty, short_term, long_term) VALUES (1, 'My Projects', 4, 10, 10);
+INSERT INTO user_tasks (user_id, parent_id, task, difficulty, short_term, long_term) VALUES (1, 1, 'My Projects Child', 4,4,4);

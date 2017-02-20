@@ -75,6 +75,7 @@ func api(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		"notify-admin": apiNotifyAdmin,
 		"tasks":        apiTasks,
 		"new-task":     apiNewTask,
+		"delete-task":  apiDeleteTask,
 	}
 	apiGeneral(w, r, allowedFunctions)
 }

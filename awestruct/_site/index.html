@@ -24,44 +24,47 @@
           </div>
           <div class="row columns">
             <h1>Priori</h1>
-            <form action="/api/" class="ajax row task template" data-callback="delete-task" method="post">
+            <form action="/api/" class="ajax row task template" data-callback="delete-task-success" method="post">
               <input name="action" type="hidden" value="delete-task">
-              <input class="id" name="task-id" type="hidden" value="0">
-              <div class="column large-8 medium-8">
+              <input class="id" name="id" type="hidden" value="0">
+              <div class="columns large-8 medium-7">
                 <a class="task button"></a>
               </div>
-              <div class="difficulty column large-1 medium-1 small-3"></div>
-              <div class="short-term column large-1 medium-1 small-3"></div>
-              <div class="long-term column large-1 medium-1 small-3"></div>
-              <div class="column text-right large-1 medium-1 small-3">
+              <div class="columns large-3 medium-4 small-9 text-right">
+                <span class="short-term"></span>
+                <span class="long-term"></span>
+                <span class="difficulty"></span>
+                <span class="total"></span>
+              </div>
+              <div class="columns text-right large-1 medium-1 small-3">
                 <button class="delete button small" name="delete" type="submit">X</button>
               </div>
             </form>
-            <form action="/api/" class="ajax row" data-callback="new-task-success" method="post">
+            <form action="/api/" class="ajax new-task row" data-callback="new-task-success" method="post">
               <input name="action" type="hidden" value="new-task">
               <input name="parent-id" type="hidden" value="0">
               <div class="columns large-5 medium-5">
                 <label>
                   New Task:
-                  <input class="new-task" name="task" required type="text">
-                </label>
-              </div>
-              <div class="columns large-2 medium-2 small-3">
-                <label>
-                  Difficulty:
-                  <input class="new-task-difficulty" max="2147483647" min="0" name="difficulty" required type="number">
+                  <input class="task" name="task" required type="text">
                 </label>
               </div>
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Short Term:
-                  <input class="new-task-short-term" max="2147483647" min="0" name="short-term" required type="number">
+                  <input class="short-term" max="2147483647" min="0" name="short-term" required type="number">
                 </label>
               </div>
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Long Term:
-                  <input class="new-task-long-term" max="2147483647" min="0" name="long-term" required type="number">
+                  <input class="long-term" max="2147483647" min="0" name="long-term" required type="number">
+                </label>
+              </div>
+              <div class="columns large-2 medium-2 small-3">
+                <label>
+                  Difficulty:
+                  <input class="difficulty" max="2147483647" min="0" name="difficulty" required type="number">
                 </label>
               </div>
               <div class="columns large-1 medium-1 small-3">
@@ -71,7 +74,6 @@
                 </label>
               </div>
             </form>
-            <hr>
             <h2>What's Next?</h2>
             <div class="tasks"></div>
           </div>

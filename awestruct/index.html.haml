@@ -4,39 +4,40 @@ layout: standard
 script: /js/tasks.js
 include_utilities: true
 ---
-%form.ajax.row.task.template{method: 'post', action: '/api/', 'data-callback' => 'delete-task'}
+%form.ajax.row.task.template{method: 'post', action: '/api/', 'data-callback' => 'delete-task-success'}
   %input{type: 'hidden', name: 'action', value: 'delete-task'}
-  %input.id{type: 'hidden', name: 'task-id', value: 0}
-  .column.large-8.medium-8
+  %input.id{type: 'hidden', name: 'id', value: 0}
+  .columns.large-8.medium-7
     %a.task.button
-  .difficulty.column.large-1.medium-1.small-3
-  .short-term.column.large-1.medium-1.small-3
-  .long-term.column.large-1.medium-1.small-3
-  .column.text-right.large-1.medium-1.small-3
+  .columns.large-3.medium-4.small-9.text-right
+    %span.short-term
+    %span.long-term
+    %span.difficulty
+    %span.total
+  .columns.text-right.large-1.medium-1.small-3
     %button.delete.button.small{type: 'submit', name: 'delete'} X
-%form.ajax.row{method: 'post', action: '/api/', 'data-callback' => 'new-task-success'}
+%form.ajax.new-task.row{method: 'post', action: '/api/', 'data-callback' => 'new-task-success'}
   %input{type: 'hidden', name: 'action', value: 'new-task'}
   %input{type: 'hidden', name: 'parent-id', value: 0}
   .columns.large-5.medium-5
     %label
       New Task:
-      %input.new-task{type: 'text', name: 'task', required: true}
-  .columns.large-2.medium-2.small-3
-    %label
-      Difficulty:
-      %input.new-task-difficulty{type: 'number', name: 'difficulty', required: true, min: 0, max: 2147483647}
+      %input.task{type: 'text', name: 'task', required: true}
   .columns.large-2.medium-2.small-3
     %label
       Short Term:
-      %input.new-task-short-term{type: 'number', name: 'short-term', required: true, min: 0, max: 2147483647}
+      %input.short-term{type: 'number', name: 'short-term', required: true, min: 0, max: 2147483647}
   .columns.large-2.medium-2.small-3
     %label
       Long Term:
-      %input.new-task-long-term{type: 'number', name: 'long-term', required: true, min: 0, max: 2147483647}
+      %input.long-term{type: 'number', name: 'long-term', required: true, min: 0, max: 2147483647}
+  .columns.large-2.medium-2.small-3
+    %label
+      Difficulty:
+      %input.difficulty{type: 'number', name: 'difficulty', required: true, min: 0, max: 2147483647}
   .columns.large-1.medium-1.small-3
     %label
       &nbsp;
       %button.button.expand{type: 'submit'} +
-%hr
 %h2 What's Next?
 .tasks

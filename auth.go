@@ -30,7 +30,6 @@ func apiAuthorize(handle httprouter.Handle) httprouter.Handle {
 		} else if loggedIn {
 			handle(w, r, ps)
 		} else {
-			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(apiResponse{
 				Errors: []string{"You must log in first."},
 			})
