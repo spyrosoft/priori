@@ -93,7 +93,7 @@ func apiGeneral(w http.ResponseWriter, r *http.Request, allowedFunctions map[str
 		return
 	}
 	switch response := function(w, r).(type) {
-	case apiResponse:
+	case apiResponse, []Task:
 		json.NewEncoder(w).Encode(response)
 	case string:
 		fmt.Fprint(w, response)
@@ -101,7 +101,7 @@ func apiGeneral(w http.ResponseWriter, r *http.Request, allowedFunctions map[str
 		responseString := strconv.Itoa(response)
 		fmt.Fprint(w, responseString)
 	default:
-		err := errors.New("Api response type is neither apiResponse or string.")
+		err := errors.New("Api response type is of an unknown type.")
 		json.NewEncoder(w).Encode(notifyAdminResponse("An error occurred while accessing the api.", err))
 	}
 }
@@ -118,4 +118,8 @@ func debug(things ...interface{}) {
 		}
 		fmt.Println("^^^^^^^^^^^^^^^^^^^^")
 	}
+}
+
+func debugType(thing interface{}) {
+	fmt.Printf("%T\n", thing)
 }

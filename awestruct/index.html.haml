@@ -12,6 +12,7 @@ include_utilities: true
   .columns.large-3.medium-4.small-9.text-right
     %span.short-term
     %span.long-term
+    %span.urgency
     %span.difficulty
     %span.total
   .columns.text-right.large-1.medium-1.small-3
@@ -19,25 +20,26 @@ include_utilities: true
 %form.ajax.new-task.row{method: 'post', action: '/api/', 'data-callback' => 'new-task-success'}
   %input{type: 'hidden', name: 'action', value: 'new-task'}
   %input{type: 'hidden', name: 'parent-id', value: 0}
-  .columns.large-5.medium-5
+  .columns.large-4.medium-4
     %label
       New Task:
       %input.task{type: 'text', name: 'task', required: true}
   .columns.large-2.medium-2.small-3
     %label
       Short Term:
-      %input.short-term{type: 'number', name: 'short-term', required: true, min: 0, max: 2147483647}
+      %input.short-term{type: 'number', name: 'short-term', required: true, min: 0, max: 2147483647, value: 5}
   .columns.large-2.medium-2.small-3
     %label
       Long Term:
-      %input.long-term{type: 'number', name: 'long-term', required: true, min: 0, max: 2147483647}
+      %input.long-term{type: 'number', name: 'long-term', required: true, min: 0, max: 2147483647, value: 5}
+  .columns.large-2.medium-2.small-3
+    %label
+      Urgency:
+      %input.urgency{type: 'number', name: 'urgency', required: true, min: 0, max: 2147483647, value: 5}
   .columns.large-2.medium-2.small-3
     %label
       Difficulty:
-      %input.difficulty{type: 'number', name: 'difficulty', required: true, min: 0, max: 2147483647}
-  .columns.large-1.medium-1.small-3
-    %label
-      &nbsp;
-      %button.button.expand{type: 'submit'} +
+      %input.difficulty{type: 'number', name: 'difficulty', required: true, min: 0, max: 2147483647, value: 5}
+  %button.button{type: 'submit', style: 'display: none'} +
 %h2 What's Next?
 .tasks

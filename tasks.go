@@ -6,6 +6,15 @@ import (
 	"strconv"
 )
 
+type Task struct {
+	Id         int    `json:"id"`
+	Task       string `json:"task"`
+	ShortTerm  int    `json:"short-term"`
+	LongTerm   int    `json:"long-term"`
+	Urgency    int    `json:"urgency"`
+	Difficulty int    `json:"difficulty"`
+}
+
 func apiNewTask(w http.ResponseWriter, r *http.Request) interface{} {
 	ok, response := validateNewTaskPostFormValues(r)
 	if !ok {
@@ -14,12 +23,13 @@ func apiNewTask(w http.ResponseWriter, r *http.Request) interface{} {
 
 	newTask := r.PostFormValue("task")
 	userId, _ := cookieIntValue("user-id", r)
-	difficulty, _ := strconv.Atoi(r.PostFormValue("difficulty"))
 	shortTerm, _ := strconv.Atoi(r.PostFormValue("short-term"))
 	longTerm, _ := strconv.Atoi(r.PostFormValue("long-term"))
+	urgency, _ := strconv.Atoi(r.PostFormValue("urgency"))
+	difficulty, _ := strconv.Atoi(r.PostFormValue("difficulty"))
 
 	var taskId int
-	err := db.QueryRow("INSERT INTO user_tasks (user_id, task, difficulty, short_term, long_term) VALUES ($1, $2, $3, $4, $5) RETURNING id", userId, newTask, difficulty, shortTerm, longTerm).Scan(&taskId)
+	err := db.QueryRow("INSERT INTO user_tasks (user_id, task, short_term, long_term, urgency, difficulty) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id", userId, newTask, shortTerm, longTerm, urgency, difficulty).Scan(&taskId)
 	if err != nil {
 		return notifyAdminResponse("An error occurred while adding your new task to the database.", err)
 	}
@@ -38,10 +48,6 @@ func validateNewTaskPostFormValues(r *http.Request) (
 		response.Errors = append(response.Errors, "The Task field is required.")
 		response.Fields = append(response.Fields, "task")
 	}
-	if _, err = strconv.Atoi(r.PostFormValue("difficulty")); err != nil {
-		response.Errors = append(response.Errors, "The Difficulty field must be an integer.")
-		response.Fields = append(response.Fields, "difficulty")
-	}
 	if _, err = strconv.Atoi(r.PostFormValue("short-term")); err != nil {
 		response.Errors = append(response.Errors, "The Short Term field must be an integer.")
 		response.Fields = append(response.Fields, "short-term")
@@ -49,6 +55,14 @@ func validateNewTaskPostFormValues(r *http.Request) (
 	if _, err = strconv.Atoi(r.PostFormValue("long-term")); err != nil {
 		response.Errors = append(response.Errors, "The Long Term field must be an integer.")
 		response.Fields = append(response.Fields, "long-term")
+	}
+	if _, err = strconv.Atoi(r.PostFormValue("urgency")); err != nil {
+		response.Errors = append(response.Errors, "The Urgency field must be an integer.")
+		response.Fields = append(response.Fields, "urgency")
+	}
+	if _, err = strconv.Atoi(r.PostFormValue("difficulty")); err != nil {
+		response.Errors = append(response.Errors, "The Difficulty field must be an integer.")
+		response.Fields = append(response.Fields, "difficulty")
 	}
 	return
 }
@@ -59,27 +73,31 @@ func apiTasks(w http.ResponseWriter, r *http.Request) interface{} {
 		return notifyAdminResponse("An error occurred while looking up your tasks.", errors.New("Could not retrieve the current user id."))
 	}
 
-	isOrEqual := "is NULL"
+	isParentId := "is NULL"
 	if r.PostFormValue("parent-id") != "" {
 		parentId, err := strconv.Atoi(r.PostFormValue("parent-id"))
 		if err != nil {
 			return notifyAdminResponse("An error occurred accessing your tasks.", err)
 		}
 		safeParentId := strconv.Itoa(parentId)
-		isOrEqual = "= " + safeParentId
+		isParentId = "= " + safeParentId
 	}
-	var results interface{}
-	err := db.QueryRow("SELECT TO_JSON(ARRAY_AGG(tasks)) FROM (SELECT id, task, difficulty, short_term, long_term FROM user_tasks WHERE user_id = $1 AND parent_id "+isOrEqual+") tasks", userId).Scan(&results)
+	rows, err := db.Query("SELECT id, task, short_term, long_term, urgency, difficulty FROM user_tasks WHERE user_id = $1 AND parent_id "+isParentId, userId)
+	defer rows.Close()
 	if err != nil {
 		return notifyAdminResponse("An error occurred while looking up your tasks.", err)
 	}
 
-	switch results.(type) {
-	case string:
-		return results
-	default:
-		return apiResponse{Success: true}
+	tasks := []Task{}
+	for rows.Next() {
+		task := Task{}
+		err = rows.Scan(&task.Id, &task.Task, &task.ShortTerm, &task.LongTerm, &task.Urgency, &task.Difficulty)
+		if err != nil {
+			return notifyAdminResponse("An error occurred while looking up your tasks.", err)
+		}
+		tasks = append(tasks, task)
 	}
+	return tasks
 }
 
 func apiDeleteTask(w http.ResponseWriter, r *http.Request) interface{} {

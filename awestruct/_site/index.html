@@ -33,6 +33,7 @@
               <div class="columns large-3 medium-4 small-9 text-right">
                 <span class="short-term"></span>
                 <span class="long-term"></span>
+                <span class="urgency"></span>
                 <span class="difficulty"></span>
                 <span class="total"></span>
               </div>
@@ -43,7 +44,7 @@
             <form action="/api/" class="ajax new-task row" data-callback="new-task-success" method="post">
               <input name="action" type="hidden" value="new-task">
               <input name="parent-id" type="hidden" value="0">
-              <div class="columns large-5 medium-5">
+              <div class="columns large-4 medium-4">
                 <label>
                   New Task:
                   <input class="task" name="task" required type="text">
@@ -52,27 +53,28 @@
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Short Term:
-                  <input class="short-term" max="2147483647" min="0" name="short-term" required type="number">
+                  <input class="short-term" max="2147483647" min="0" name="short-term" required type="number" value="5">
                 </label>
               </div>
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Long Term:
-                  <input class="long-term" max="2147483647" min="0" name="long-term" required type="number">
+                  <input class="long-term" max="2147483647" min="0" name="long-term" required type="number" value="5">
+                </label>
+              </div>
+              <div class="columns large-2 medium-2 small-3">
+                <label>
+                  Urgency:
+                  <input class="urgency" max="2147483647" min="0" name="urgency" required type="number" value="5">
                 </label>
               </div>
               <div class="columns large-2 medium-2 small-3">
                 <label>
                   Difficulty:
-                  <input class="difficulty" max="2147483647" min="0" name="difficulty" required type="number">
+                  <input class="difficulty" max="2147483647" min="0" name="difficulty" required type="number" value="5">
                 </label>
               </div>
-              <div class="columns large-1 medium-1 small-3">
-                <label>
-                  &nbsp;
-                  <button class="button expand" type="submit">+</button>
-                </label>
-              </div>
+              <button class="button" style="display: none" type="submit">+</button>
             </form>
             <h2>What's Next?</h2>
             <div class="tasks"></div>

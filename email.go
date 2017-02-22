@@ -108,6 +108,8 @@ func notifyAdminResponse(message string, err error) (response apiResponse) {
 }
 
 func notifyAdmin(message string) (err error) {
-	err = sendEmail(siteData.AdminEmail, "An Unexpected Error Occurred - Priori", message)
+	if siteData.LiveOrDev != "dev" {
+		err = sendEmail(siteData.AdminEmail, "An Unexpected Error Occurred - Priori", message)
+	}
 	return
 }
