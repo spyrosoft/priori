@@ -1,7 +1,18 @@
+$('.new-task input.task').select();
+reset_tasks();
+
+$(window).on('hashchange', reset_tasks);
+
+
 function reset_tasks() {
 	$('.tasks').html('');
+	var post_data = {'action': 'tasks'};
+	var parent_id = get_parent_id_from_url_hash();
+	if (typeof parent_id !== 'undefined') {
+		post_data['parent-id'] = parent_id;
+	}
 	api_call(
-		{'action': 'tasks'},
+		post_data,
 		'populate-tasks'
 	);
 }
@@ -9,15 +20,32 @@ function reset_tasks() {
 success_response_callbacks['populate-tasks'] = populate_tasks_callback;
 
 function populate_tasks_callback(post_data, tasks_data) {
-	console.log(tasks_data)
-	for (var i in tasks_data) {
+	if (tasks_data['parent'] !== undefined) {
+		$('#page-title').html(Belt.escapeHTML(tasks_data['parent']));
+	}
+	if (tasks_data['parent-id'] !== undefined) {
+		$('a.parent-task').attr('href', '/#' + tasks_data['parent-id']);
+	} else {
+		$('a.parent-task').attr('href', '/');
+	}
+	if (tasks_data['tasks'] === undefined || tasks_data['tasks'] === '') {return;}
+	
+	var tasks;
+	try {
+		tasks = JSON.parse(tasks_data['tasks']);
+	} catch(e) {
+		display_error('An error occurred while retrieving your tasks. An admin has been notified.');
+		notify_admin(e);
+		return;
+	}
+	for (var i in tasks) {
 		add_task(
-			tasks_data[i]['task'],
-			tasks_data[i]['id'],
-			tasks_data[i]['short-term'],
-			tasks_data[i]['long-term'],
-			tasks_data[i]['urgency'],
-			tasks_data[i]['difficulty']
+			tasks[i]['task'],
+			tasks[i]['id'],
+			tasks[i]['short_term'],
+			tasks[i]['long_term'],
+			tasks[i]['urgency'],
+			tasks[i]['difficulty']
 		);
 	}
 }
@@ -28,7 +56,7 @@ function add_task(task, id, short_term, long_term, urgency, difficulty) {
 		$(clone).submit(ajax_form_submission);
 		$(clone).addClass('task-id-' + id);
 		$(clone).find('a.task')
-			.html(task)
+			.html(Belt.escapeHTML(task))
 			.attr('href', '/#' + id);
 		$(clone).find('input.id').val(id);
 		$(clone).find('.short-term')
@@ -51,14 +79,15 @@ success_response_callbacks['new-task-success'] = new_task_success;
 
 function new_task_success(post_data, new_task_data) {
 	add_task(
-		post_data['task'],
+		decodeURIComponent(post_data['task']),
 		new_task_data,
 		post_data['short-term'],
 		post_data['long-term'],
 		post_data['urgency'],
 		post_data['difficulty']
 	);
-	$('.new-task input.task, .new-task input.short-term, .new-task input.long-term, .new-task input.urgency, .new-task input.difficulty').val('');
+	$('.new-task input.task').val('');
+	$('.new-task input.short-term, .new-task input.long-term, .new-task input.urgency, .new-task input.difficulty').val(5);
 	$('.new-task input.task').select();
 }
 
@@ -72,5 +101,10 @@ function delete_task_success(post_data, delete_task_data) {
 
 
 
-$('.new-task input.task').select();
-reset_tasks();
+function get_parent_id_from_url_hash() {
+	var url_hash = window.location.hash.substring(1, window.location.hash.length);
+	if (url_hash.length === 0) {return undefined;}
+	var parent_id = parseInt(url_hash);
+	if (parent_id.toString() !== url_hash) {return undefined;}
+	return parent_id;
+}

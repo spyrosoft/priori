@@ -93,7 +93,7 @@ func apiGeneral(w http.ResponseWriter, r *http.Request, allowedFunctions map[str
 		return
 	}
 	switch response := function(w, r).(type) {
-	case apiResponse, []Task:
+	case apiResponse, Tasks:
 		json.NewEncoder(w).Encode(response)
 	case string:
 		fmt.Fprint(w, response)

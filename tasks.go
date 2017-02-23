@@ -1,18 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"net/http"
 	"strconv"
 )
 
-type Task struct {
-	Id         int    `json:"id"`
-	Task       string `json:"task"`
-	ShortTerm  int    `json:"short-term"`
-	LongTerm   int    `json:"long-term"`
-	Urgency    int    `json:"urgency"`
-	Difficulty int    `json:"difficulty"`
+type Tasks struct {
+	Parent   string `json:"parent,omitempty"`
+	ParentId int    `json:"parent-id,omitempty"`
+	Tasks    string `json:"tasks"`
 }
 
 func apiNewTask(w http.ResponseWriter, r *http.Request) interface{} {
@@ -73,6 +71,8 @@ func apiTasks(w http.ResponseWriter, r *http.Request) interface{} {
 		return notifyAdminResponse("An error occurred while looking up your tasks.", errors.New("Could not retrieve the current user id."))
 	}
 
+	tasks := Tasks{}
+
 	isParentId := "is NULL"
 	if r.PostFormValue("parent-id") != "" {
 		parentId, err := strconv.Atoi(r.PostFormValue("parent-id"))
@@ -81,22 +81,34 @@ func apiTasks(w http.ResponseWriter, r *http.Request) interface{} {
 		}
 		safeParentId := strconv.Itoa(parentId)
 		isParentId = "= " + safeParentId
+
+		var parent sql.NullString
+		var grandparentId sql.NullInt64
+		err = db.QueryRow("SELECT task, parent_id FROM user_tasks WHERE user_id = $1 AND id = $1", parentId).Scan(&parent, &grandparentId)
+		if err != sql.ErrNoRows && err != nil {
+			return notifyAdminResponse("An error occurred while looking up your tasks.", err)
+		}
+
+		if parent.Valid {
+			debug("parent")
+			tasks.Parent = parent.String
+		}
+		if grandparentId.Valid {
+			debug("grandparent")
+			tasks.ParentId = int(grandparentId.Int64)
+		}
 	}
-	rows, err := db.Query("SELECT id, task, short_term, long_term, urgency, difficulty FROM user_tasks WHERE user_id = $1 AND parent_id "+isParentId, userId)
-	defer rows.Close()
+
+	var s sql.NullString
+	//TODO: This is selecting all tasks when parent_id is null
+	err := db.QueryRow("SELECT to_json(array_agg(lists)) from (SELECT id, task, short_term, long_term, urgency, difficulty FROM user_tasks WHERE user_id = $1 AND parent_id "+isParentId+") lists", userId).Scan(&s)
 	if err != nil {
 		return notifyAdminResponse("An error occurred while looking up your tasks.", err)
 	}
-
-	tasks := []Task{}
-	for rows.Next() {
-		task := Task{}
-		err = rows.Scan(&task.Id, &task.Task, &task.ShortTerm, &task.LongTerm, &task.Urgency, &task.Difficulty)
-		if err != nil {
-			return notifyAdminResponse("An error occurred while looking up your tasks.", err)
-		}
-		tasks = append(tasks, task)
+	if s.Valid {
+		tasks.Tasks = s.String
 	}
+
 	return tasks
 }
 
@@ -112,7 +124,7 @@ func apiDeleteTask(w http.ResponseWriter, r *http.Request) interface{} {
 		return notifyAdminResponse("An error occurred while looking up your user.", errors.New("Could not retrieve the current user id."))
 	}
 
-	//TODO: Cascade delete children
+	//TODO: Cascade destroy children or there will be zombies
 	_, err = db.Query("DELETE FROM user_tasks WHERE user_id = $1 AND id = $2", userId, id)
 	if err != nil {
 		return notifyAdminResponse("An error occurred while deleting your task.", err)

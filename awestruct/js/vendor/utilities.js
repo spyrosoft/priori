@@ -199,7 +199,17 @@ var Utilities = {
 			get_parameters[ get_parameter ] = get_value;
 		}
 		return get_parameters;
+	},
+
+	escapeHTML : function(unescaped) {
+		return String(unescaped)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;');
 	}
 };
 
 if ( typeof console === 'undefined' ) { var console = { log : function() {} }; }
+
+if ( typeof Belt === 'undefined' ) { var Belt = Utilities; }

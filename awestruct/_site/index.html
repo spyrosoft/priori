@@ -23,7 +23,7 @@
             <button class="menu-icon"></button>
           </div>
           <div class="row columns">
-            <h1>Priori</h1>
+            <h1 id="page-title">Priori</h1>
             <form action="/api/" class="ajax row task template" data-callback="delete-task-success" method="post">
               <input name="action" type="hidden" value="delete-task">
               <input class="id" name="id" type="hidden" value="0">
@@ -76,6 +76,7 @@
               </div>
               <button class="button" style="display: none" type="submit">+</button>
             </form>
+            <a class="parent-task">Up</a>
             <h2>What's Next?</h2>
             <div class="tasks"></div>
           </div>
