@@ -26,8 +26,16 @@ func apiNewTask(w http.ResponseWriter, r *http.Request) interface{} {
 	urgency, _ := strconv.Atoi(r.PostFormValue("urgency"))
 	difficulty, _ := strconv.Atoi(r.PostFormValue("difficulty"))
 
+	parentId := sql.NullInt64{}
+	debug(r.PostFormValue("parent-id"))
+	if r.PostFormValue("parent-id") != "" {
+		parentIdInt, _ := strconv.Atoi(r.PostFormValue("parent-id"))
+		parentId.Scan(int64(parentIdInt))
+		debug(parentId)
+	}
+
 	var taskId int
-	err := db.QueryRow("INSERT INTO user_tasks (user_id, task, short_term, long_term, urgency, difficulty) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id", userId, newTask, shortTerm, longTerm, urgency, difficulty).Scan(&taskId)
+	err := db.QueryRow("INSERT INTO user_tasks (user_id, parent_id, task, short_term, long_term, urgency, difficulty) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id", userId, parentId, newTask, shortTerm, longTerm, urgency, difficulty).Scan(&taskId)
 	if err != nil {
 		return notifyAdminResponse("An error occurred while adding your new task to the database.", err)
 	}
@@ -90,7 +98,6 @@ func apiTasks(w http.ResponseWriter, r *http.Request) interface{} {
 		}
 
 		if parent.Valid {
-			debug("parent")
 			tasks.Parent = parent.String
 		}
 		if grandparentId.Valid {
@@ -101,7 +108,7 @@ func apiTasks(w http.ResponseWriter, r *http.Request) interface{} {
 
 	var s sql.NullString
 	//TODO: This is selecting all tasks when parent_id is null
-	err := db.QueryRow("SELECT to_json(array_agg(lists)) from (SELECT id, task, short_term, long_term, urgency, difficulty FROM user_tasks WHERE user_id = $1 AND parent_id "+isParentId+") lists", userId).Scan(&s)
+	err := db.QueryRow("SELECT to_json(array_agg(tasks)) from (SELECT id, task, short_term, long_term, urgency, difficulty FROM user_tasks WHERE user_id = $1 AND parent_id "+isParentId+") tasks", userId).Scan(&s)
 	if err != nil {
 		return notifyAdminResponse("An error occurred while looking up your tasks.", err)
 	}

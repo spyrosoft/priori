@@ -32,9 +32,13 @@
               </div>
               <div class="columns large-3 medium-4 small-9 text-right">
                 <span class="short-term"></span>
+                +
                 <span class="long-term"></span>
+                +
                 <span class="urgency"></span>
+                -
                 <span class="difficulty"></span>
+                =
                 <span class="total"></span>
               </div>
               <div class="columns text-right large-1 medium-1 small-3">
@@ -43,7 +47,7 @@
             </form>
             <form action="/api/" class="ajax new-task row" data-callback="new-task-success" method="post">
               <input name="action" type="hidden" value="new-task">
-              <input name="parent-id" type="hidden" value="0">
+              <input class="parent-id" name="parent-id" type="hidden">
               <div class="columns large-4 medium-4">
                 <label>
                   New Task:
@@ -76,7 +80,7 @@
               </div>
               <button class="button" style="display: none" type="submit">+</button>
             </form>
-            <a class="parent-task">Up</a>
+            <a class="parent-task display-none">Up</a>
             <h2>What's Next?</h2>
             <div class="tasks"></div>
           </div>
