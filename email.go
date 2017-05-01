@@ -19,7 +19,7 @@ func sendEmail(to string, subject string, message string) (err error) {
 func sendEmailFrom(to string, fromName string, from string, subject string, message string) (err error) {
 	err = errors.New("Outgoing email credentials have not been set. Cannot send message.")
 
-	fromHeader := mail.Address{fromName, from}
+	fromHeader := mail.Address{Name: fromName, Address: from}
 
 	headers := make(map[string]string)
 	headers["From"] = fromHeader.String()

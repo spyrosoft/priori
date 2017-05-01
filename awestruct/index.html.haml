@@ -4,47 +4,25 @@ layout: standard
 script: /js/tasks.js
 include_utilities: true
 ---
-%form.ajax.row.task.template{method: 'post', action: '/api/', 'data-callback' => 'delete-task-success'}
-  %input{type: 'hidden', name: 'action', value: 'delete-task'}
-  %input.id{type: 'hidden', name: 'id', value: 0}
-  .columns.large-8.medium-7
-    %a.task.button
-  .columns.large-3.medium-4.small-9.text-right
-    %span.short-term
-    +
-    %span.long-term
-    +
-    %span.urgency
-    \-
-    %span.difficulty
-    \=
-    %span.total
-  .columns.text-right.large-1.medium-1.small-3
-    %button.delete.button.small{type: 'submit', name: 'delete'} X
-%form.ajax.new-task.row{method: 'post', action: '/api/', 'data-callback' => 'new-task-success'}
-  %input{type: 'hidden', name: 'action', value: 'new-task'}
-  %input.parent-id{type: 'hidden', name: 'parent-id'}
-  .columns.large-4.medium-4
-    %label
-      New Task:
-      %input.task{type: 'text', name: 'task', required: true}
-  .columns.large-2.medium-2.small-3
-    %label
-      Short Term:
-      %input.short-term{type: 'number', name: 'short-term', required: true, min: 0, max: 2147483647, value: 5}
-  .columns.large-2.medium-2.small-3
-    %label
-      Long Term:
-      %input.long-term{type: 'number', name: 'long-term', required: true, min: 0, max: 2147483647, value: 5}
-  .columns.large-2.medium-2.small-3
-    %label
-      Urgency:
-      %input.urgency{type: 'number', name: 'urgency', required: true, min: 0, max: 2147483647, value: 5}
-  .columns.large-2.medium-2.small-3
-    %label
-      Difficulty:
-      %input.difficulty{type: 'number', name: 'difficulty', required: true, min: 0, max: 2147483647, value: 5}
-  %button.button{type: 'submit', style: 'display: none'} +
+%p &nbsp;
+
+%form.ajax.row.weights#weights
+  .weight.columns.large-6.medium-6.template
+    .row.collapse
+      .columns.large-4.medium-3.small-2.text-right
+        .switch
+          %input.switch-input.positive{name: 'positive', type: 'checkbox'}
+          %label.switch-paddle
+      .columns.large-8.medium-9.small-10
+        %input.weight-name{type: 'text', placeholder: 'Weight Name'}
+    
+
 %a.parent-task.display-none Up
-%h2 What's Next?
+%label What's Next?
 .tasks
+%form.ajax.new-task.row#new-task
+  %input.parent-id{type: 'hidden', name: 'parent-id'}
+  %input.parent-id{type: 'hidden', name: 'action', value: 'new-task'}
+  .columns.large-4.medium-4
+    %input.task{type: 'text', name: 'task', required: true}
+  %button.button{type: 'submit', style: 'display: none'} +

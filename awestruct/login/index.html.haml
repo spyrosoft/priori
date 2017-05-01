@@ -3,7 +3,7 @@ title: Log In
 layout: noauth
 script: /js/login.js
 ---
-%form.row.ajax{:action => '/api-noauth/', :method => 'post', 'data-callback' => 'login-success'}
+%form.row.ajax{:action => '/api-noauth/', :method => 'post'}
   %input{type: 'hidden', name: 'action', value: 'login'}
   .columns.medium-3.large-4.show-for-medium
     &nbsp;

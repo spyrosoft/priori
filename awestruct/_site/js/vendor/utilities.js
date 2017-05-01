@@ -186,11 +186,15 @@ var Utilities = {
 		return Math.ceil( parseFloat( dollars ) * 100 );
 	},
 	
-	parseGetParameters : function() {
-		var get_parameters = {};
+	parseGetParametersFromURL : function() {
 		var full_url = window.location.href;
-		if ( full_url.indexOf( '?' ) === -1 ) { return get_parameters; }
+		if ( full_url.indexOf( '?' ) === -1 ) { return {}; }
 		var get_parameter_string = full_url.substring( full_url.indexOf( '?' ) + 1, full_url.length );
+		return this.parseGetParameters(get_parameter_string);
+	},
+
+	parseGetParameters : function(get_parameter_string) {
+		var get_parameters = {};
 		var get_parameters_and_values = get_parameter_string.split( '&' );
 		for ( var i in get_parameters_and_values ) {
 			var get_parameter_and_value = get_parameters_and_values[ i ].split( '=' );
@@ -207,6 +211,14 @@ var Utilities = {
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
 			.replace(/"/g, '&quot;');
+	},
+
+	parseJSON : function(json_to_parse) {
+		try {
+			var parsed = JSON.parse(json_to_parse);
+			return parsed;
+		} catch(e) {}
+		return undefined;
 	}
 };
 

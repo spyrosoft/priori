@@ -1,7 +1,7 @@
-$fg-color-primary: #ffffff
-$fg-color-secondary: #d0d0d0
-$bg-color-primary: #000000
-$bg-color-secondary: #020202
+$fg-color-primary: #000000
+$fg-color-secondary: #020202
+$bg-color-primary: #ffffff
+$bg-color-secondary: #d0d0d0
 
 $error-bg-color-primary: #ff9999
 $error-bg-color-secondary: #ff6060
@@ -103,85 +103,6 @@ h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
 [type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
 	@extend .standard-border-and-bg-and-fg
 
-[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
-	@extend .inverted-border-and-bg-and-fg
-
-.invert,
-.invert .invert .invert,
-.invert .invert .invert .invert .invert,
-.invert .invert .invert .invert .invert .invert .invert
-	@extend .inverted-fg-color
-	@extend .inverted-bg-color
-	
-	h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
-		@extend .inverted-fg-color
-	
-	.button
-		@extend .standard-fg-color
-		@extend .standard-bg-color
-	
-	.button:hover, .button:focus
-		@extend .inverted-fg-color
-		@extend .inverted-bg-color
-	
-	.menu-icon::after, .menu-icon:hover::after
-		background-color: $bg-color-primary
-		box-shadow: 0 7px 0 $bg-color-primary, 0 14px $bg-color-primary
-	
-	.is-drilldown-submenu
-		background-color: $bg-color-primary
-	
-	.is-drilldown-submenu-parent>a::after
-		@extend .border-left-only-bg-color-primary
-	.js-drilldown-back::before
-		@extend .border-right-only-fg-color-primary
-	
-	.is-drilldown-submenu a
-		@extend .standard-fg-color
-	
-	[type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
-		@extend .inverted-border-and-bg-and-fg
-		
-	[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
-		@extend .standard-border-and-bg-and-fg
-
-
-
-.invert .invert,
-.invert .invert .invert .invert,
-.invert .invert .invert .invert .invert .invert,
-.invert .invert .invert .invert .invert .invert .invert .invert
-	@extend .standard-fg-color
-	@extend .standard-bg-color
-	
-	h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
-		@extend .standard-fg-color
-	
-	.button
-		@extend .button
-	
-	.button:hover, .button:focus
-		@extend .button:hover
-	
-	.menu-icon::after, .menu-icon:hover::after
-		@extend .menu-icon::after
-	
-	.is-drilldown-submenu
-		@extend .is-drilldown-submenu
-	
-	.is-drilldown-submenu-parent>a::after
-		@extend .border-left-only-fg-color-primary
-	.js-drilldown-back::before
-		@extend .border-right-only-bg-color-primary
-	
-	.is-drilldown-submenu a
-		@extend .inverted-fg-color
-	
-	[type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
-		@extend .standard-border-and-bg-and-fg
-		
-	[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
-		@extend .inverted-border-and-bg-and-fg
 
 
 /* Spacing
@@ -253,6 +174,24 @@ ul, ol
 
 
 /* Specific
+
+$switch-height: $medium-spacing
+
+.weights
+	.switch-paddle
+		background-color: #00bb00
+	
+	input:checked~.switch-paddle
+		background-color: #bb0000
+	
+	input[type="text"]
+		height: $switch-height
+		line-height: $switch-height
+		border-color: transparent
+		box-shadow: none
+	
+	input[type="text"]:focus
+		border-color: $fg-color-primary
 
 .task .total
 	font-weight: bold

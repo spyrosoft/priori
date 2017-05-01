@@ -7,7 +7,9 @@ CREATE TABLE users (
 	email_hash BYTEA UNIQUE NOT NULL,
 	password_hash BYTEA NOT NULL,
 	password_salt BYTEA NOT NULL,
-	tasks JSON
+	-- Storing tasks as TEXT makes sense
+	-- We won't be performing database actions on the JSON
+	tasks TEXT
 );
 
 

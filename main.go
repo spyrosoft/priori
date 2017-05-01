@@ -73,9 +73,8 @@ func apiNoauth(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func api(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	allowedFunctions := map[string]func(http.ResponseWriter, *http.Request) interface{}{
 		"notify-admin": apiNotifyAdmin,
-		"tasks":        apiTasks,
-		"new-task":     apiNewTask,
-		"delete-task":  apiDeleteTask,
+		"get-tasks":    apiGetTasks,
+		"update-task":  apiUpdateTasks,
 	}
 	apiGeneral(w, r, allowedFunctions)
 }

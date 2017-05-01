@@ -1,10 +1,20 @@
-var tasks = [];
-
 $('.new-task input.task').select();
 populate_tasks();
 
 $(window).on('hashchange', hash_changed);
 
+var task_template = {
+	'name' : ''
+	, 'weights' : []
+	, 'children' : []
+};
+var tasks = clone_object(task_template);
+var parent_tasks = [];
+
+
+function clone_object(object_to_clone) {
+	return $.extend(true, {}, object_to_clone);
+}
 
 function hash_changed() {
 	populate_tasks();
@@ -15,18 +25,15 @@ function hash_changed() {
 
 function populate_tasks() {
 	$('.tasks').html('');
-	var post_data = {'action': 'tasks'};
+	var post_data = {'action': 'get-tasks'};
 	var parent_id = get_parent_id_from_url_hash();
 	if (typeof parent_id !== 'undefined') {
 		post_data['parent-id'] = parent_id;
 	}
-	api_call(
-		post_data,
-		'populate-tasks'
-	);
+	api_call(post_data);
 }
 
-success_response_callbacks['populate-tasks'] = function(post_data, tasks_data) {
+success_response_callbacks['get-tasks'] = function(post_data, tasks_data) {
 	if (tasks_data['parent'] !== undefined) {
 		$('#page-title').html(Belt.escapeHTML(tasks_data['parent']));
 	}
@@ -97,7 +104,7 @@ function append_task(task, id, short_term, long_term, urgency, difficulty) {
 
 
 
-success_response_callbacks['new-task-success'] = new_task_success;
+success_response_callbacks['new-task'] = new_task_success;
 
 function new_task_success(post_data, new_task_data) {
 	insert_new_task(
@@ -128,7 +135,7 @@ function insert_new_task(task, id, short_term, long_term, urgency, difficulty) {
 
 
 
-success_response_callbacks['delete-task-success'] = delete_task_success;
+success_response_callbacks['delete-task'] = delete_task_success;
 
 function delete_task_success(post_data, delete_task_data) {
 	$('.task-id-' + post_data['id']).remove();

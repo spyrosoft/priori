@@ -23,66 +23,33 @@
             <button class="menu-icon"></button>
           </div>
           <div class="row columns">
-            <h1 id="page-title">Priori</h1>
-            <form action="/api/" class="ajax row task template" data-callback="delete-task-success" method="post">
-              <input name="action" type="hidden" value="delete-task">
-              <input class="id" name="id" type="hidden" value="0">
-              <div class="columns large-8 medium-7">
-                <a class="task button"></a>
-              </div>
-              <div class="columns large-3 medium-4 small-9 text-right">
-                <span class="short-term"></span>
-                +
-                <span class="long-term"></span>
-                +
-                <span class="urgency"></span>
-                -
-                <span class="difficulty"></span>
-                =
-                <span class="total"></span>
-              </div>
-              <div class="columns text-right large-1 medium-1 small-3">
-                <button class="delete button small" name="delete" type="submit">X</button>
+            <p>&nbsp;</p>
+            <form class="ajax row weights" id="weights">
+              <div class="weight columns large-6 medium-6 template">
+                <div class="row collapse">
+                  <div class="columns large-4 medium-3 small-2 text-right">
+                    <div class="switch">
+                      <input class="switch-input positive" name="positive" type="checkbox">
+                      <label class="switch-paddle"></label>
+                    </div>
+                  </div>
+                  <div class="columns large-8 medium-9 small-10">
+                    <input class="weight-name" placeholder="Weight Name" type="text">
+                  </div>
+                </div>
               </div>
             </form>
-            <form action="/api/" class="ajax new-task row" data-callback="new-task-success" method="post">
-              <input name="action" type="hidden" value="new-task">
+            <a class="parent-task display-none">Up</a>
+            <label>What's Next?</label>
+            <div class="tasks"></div>
+            <form class="ajax new-task row" id="new-task">
               <input class="parent-id" name="parent-id" type="hidden">
+              <input class="parent-id" name="action" type="hidden" value="new-task">
               <div class="columns large-4 medium-4">
-                <label>
-                  New Task:
-                  <input class="task" name="task" required type="text">
-                </label>
-              </div>
-              <div class="columns large-2 medium-2 small-3">
-                <label>
-                  Short Term:
-                  <input class="short-term" max="2147483647" min="0" name="short-term" required type="number" value="5">
-                </label>
-              </div>
-              <div class="columns large-2 medium-2 small-3">
-                <label>
-                  Long Term:
-                  <input class="long-term" max="2147483647" min="0" name="long-term" required type="number" value="5">
-                </label>
-              </div>
-              <div class="columns large-2 medium-2 small-3">
-                <label>
-                  Urgency:
-                  <input class="urgency" max="2147483647" min="0" name="urgency" required type="number" value="5">
-                </label>
-              </div>
-              <div class="columns large-2 medium-2 small-3">
-                <label>
-                  Difficulty:
-                  <input class="difficulty" max="2147483647" min="0" name="difficulty" required type="number" value="5">
-                </label>
+                <input class="task" name="task" required type="text">
               </div>
               <button class="button" style="display: none" type="submit">+</button>
             </form>
-            <a class="parent-task display-none">Up</a>
-            <h2>What's Next?</h2>
-            <div class="tasks"></div>
           </div>
         </div>
         <div class="off-canvas position-right" data-off-canvas="" id="main-navigation">

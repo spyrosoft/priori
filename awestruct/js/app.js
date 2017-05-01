@@ -17,15 +17,15 @@ function ajax_form_submission(submit_event) {
 	submit_event.preventDefault();
 	var post_url = $(this).attr('action');
 	var post_data = $(this).serialize();
-	var callback_name = $(this).attr('data-callback');
+	var callback_name = $(this).find('[name="action"]').val();
 	ajax_submission(post_url, post_data, callback_name);
 }
 
-function api_call(post_data, callback_name) {
+function api_call(post_data) {
 	ajax_submission(
 		'/api/',
 		post_data,
-		callback_name
+		post_data['action']
 	);
 }
 
@@ -121,7 +121,7 @@ function append_to_messages(template_type, message) {
 		return;
 	}
 	var add_message = function(clone) {
-		clone.html(message);
+		clone.html(Belt.escapeHTML(message));
 		var remove_myself = function() {
 			$(this).remove();
 		};
