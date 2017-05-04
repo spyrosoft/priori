@@ -74,7 +74,7 @@ func api(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	allowedFunctions := map[string]func(http.ResponseWriter, *http.Request) interface{}{
 		"notify-admin": apiNotifyAdmin,
 		"get-tasks":    apiGetTasks,
-		"update-task":  apiUpdateTasks,
+		"update-tasks": apiUpdateTasks,
 	}
 	apiGeneral(w, r, allowedFunctions)
 }

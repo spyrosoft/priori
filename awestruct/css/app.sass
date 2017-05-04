@@ -66,12 +66,12 @@ h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
 	@extend .standard-fg-color
 
 .button
-	@extend .inverted-fg-color
-	@extend .inverted-bg-color
+	@extend .standard-border-and-bg-and-fg
 
 .button:hover, .button:focus
-	@extend .standard-fg-color
-	@extend .standard-bg-color
+	@extend .standard-border-and-bg-and-fg
+	text-decoration: underline
+	outline: none
 
 .js-off-canvas-exit
 	background-color: rgba( 0, 0, 0, 0.5 )
@@ -103,6 +103,12 @@ h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label
 [type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select
 	@extend .standard-border-and-bg-and-fg
 
+[type=text]:hover, [type=password]:hover, [type=date]:hover, [type=datetime]:hover, [type=datetime-local]:hover, [type=month]:hover, [type=week]:hover, [type=email]:hover, [type=number]:hover, [type=search]:hover, [type=tel]:hover, [type=time]:hover, [type=url]:hover, [type=color]:hover, textarea:hover, select:hover
+	@extend .standard-border-and-bg-and-fg
+
+[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus
+	@extend .standard-border-and-bg-and-fg
+	box-shadow: none
 
 
 /* Spacing

@@ -23,23 +23,23 @@
   background-color: #ff6060 !important; }
 
 /* line 38, /home/path/sites/priori/awestruct/css/app.sass */
-.standard-fg-color, body, .off-canvas, h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label, .button:hover, .button:focus {
+.standard-fg-color, body, .off-canvas, h1, h2, h3, h4, h5, h6, a, a:hover, a:visited, a:focus, label {
   color: #000000; }
 
 /* line 41, /home/path/sites/priori/awestruct/css/app.sass */
-.standard-bg-color, body, .off-canvas, .button:hover, .button:focus {
+.standard-bg-color, body, .off-canvas {
   background-color: #ffffff; }
 
 /* line 44, /home/path/sites/priori/awestruct/css/app.sass */
-.inverted-fg-color, .button, .is-drilldown-submenu a {
+.inverted-fg-color, .is-drilldown-submenu a {
   color: #ffffff; }
 
 /* line 47, /home/path/sites/priori/awestruct/css/app.sass */
-.inverted-bg-color, .button {
+.inverted-bg-color {
   background-color: #000000; }
 
 /* line 50, /home/path/sites/priori/awestruct/css/app.sass */
-.standard-border-and-bg-and-fg, [type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select {
+.standard-border-and-bg-and-fg, .button, .button:hover, .button:focus, [type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=number], [type=search], [type=tel], [type=time], [type=url], [type=color], textarea, select, [type=text]:hover, [type=password]:hover, [type=date]:hover, [type=datetime]:hover, [type=datetime-local]:hover, [type=month]:hover, [type=week]:hover, [type=email]:hover, [type=number]:hover, [type=search]:hover, [type=tel]:hover, [type=time]:hover, [type=url]:hover, [type=color]:hover, textarea:hover, select:hover, [type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus {
   background-color: #ffffff;
   color: #000000;
   border-color: #000000; }
@@ -49,6 +49,11 @@
   background-color: #000000;
   color: #ffffff;
   border-color: #ffffff; }
+
+/* line 71, /home/path/sites/priori/awestruct/css/app.sass */
+.button:hover, .button:focus {
+  text-decoration: underline;
+  outline: none; }
 
 /* line 76, /home/path/sites/priori/awestruct/css/app.sass */
 .js-off-canvas-exit {
@@ -79,78 +84,82 @@
 .border-right-only-fg-color-primary {
   border-color: transparent #000000 transparent transparent; }
 
+/* line 109, /home/path/sites/priori/awestruct/css/app.sass */
+[type=text]:focus, [type=password]:focus, [type=date]:focus, [type=datetime]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=week]:focus, [type=email]:focus, [type=number]:focus, [type=search]:focus, [type=tel]:focus, [type=time]:focus, [type=url]:focus, [type=color]:focus, textarea:focus, select:focus {
+  box-shadow: none; }
+
 /* Spacing */
-/* line 110, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 116, /home/path/sites/priori/awestruct/css/app.sass */
 h1, h2, h3, h4, h5, h6 {
   line-height: 100%; }
 
-/* line 113, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 119, /home/path/sites/priori/awestruct/css/app.sass */
 h1, h2, h3, h4, h5, h6 {
   padding-top: 2rem;
   padding-bottom: 2rem;
   margin: 0; }
 
-/* line 118, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 124, /home/path/sites/priori/awestruct/css/app.sass */
 .off-canvas {
   padding: 2rem; }
-/* line 121, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 127, /home/path/sites/priori/awestruct/css/app.sass */
 .off-canvas .menu > li > a {
   padding-left: 0; }
-/* line 124, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 130, /home/path/sites/priori/awestruct/css/app.sass */
 .off-canvas h1, .off-canvas h2, .off-canvas h3, .off-canvas h4, .off-canvas h5, .off-canvas h6 {
   padding-top: 0; }
 
-/* line 127, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 133, /home/path/sites/priori/awestruct/css/app.sass */
 ul, ol {
   margin-left: 2rem;
   margin-top: 0; }
 
-/* line 131, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 137, /home/path/sites/priori/awestruct/css/app.sass */
 .no-margin {
   margin: 0; }
 
-/* line 134, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 140, /home/path/sites/priori/awestruct/css/app.sass */
 .no-margin-top {
   margin-top: 0; }
 
-/* line 137, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 143, /home/path/sites/priori/awestruct/css/app.sass */
 .no-padding {
   padding: 0; }
 
-/* line 140, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 146, /home/path/sites/priori/awestruct/css/app.sass */
 .no-spacing {
   margin: 0;
   padding: 0; }
 
-/* line 144, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 150, /home/path/sites/priori/awestruct/css/app.sass */
 .menu-icon {
   margin: 0.5rem; }
 
-/* line 147, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 153, /home/path/sites/priori/awestruct/css/app.sass */
 .row > .column:last-child:not(:first-child), .row > .columns:last-child:not(:first-child) {
   float: left; }
 
-/* line 150, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 156, /home/path/sites/priori/awestruct/css/app.sass */
 .off-canvas-content {
   padding-bottom: 4rem; }
 
 /* General */
-/* line 156, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 162, /home/path/sites/priori/awestruct/css/app.sass */
 .display-none {
   display: none; }
 
-/* line 159, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 165, /home/path/sites/priori/awestruct/css/app.sass */
 .template {
   display: none; }
 
-/* line 162, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 168, /home/path/sites/priori/awestruct/css/app.sass */
 .messages {
   width: 100%;
   position: absolute;
   top: 0;
   left: 0; }
 
-/* line 168, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 174, /home/path/sites/priori/awestruct/css/app.sass */
 .error, .message {
   padding: 2rem;
   padding-right: 4rem;
@@ -159,23 +168,23 @@ ul, ol {
   background-repeat: no-repeat; }
 
 /* Specific */
-/* line 181, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 187, /home/path/sites/priori/awestruct/css/app.sass */
 .weights .switch-paddle {
   background-color: #00bb00; }
-/* line 184, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 190, /home/path/sites/priori/awestruct/css/app.sass */
 .weights input:checked ~ .switch-paddle {
   background-color: #bb0000; }
-/* line 187, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 193, /home/path/sites/priori/awestruct/css/app.sass */
 .weights input[type="text"] {
   height: 2rem;
   line-height: 2rem;
   border-color: transparent;
   box-shadow: none; }
-/* line 193, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 199, /home/path/sites/priori/awestruct/css/app.sass */
 .weights input[type="text"]:focus {
   border-color: #000000; }
 
-/* line 196, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 202, /home/path/sites/priori/awestruct/css/app.sass */
 .task .total {
   font-weight: bold;
   font-size: 200%;

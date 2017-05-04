@@ -13,9 +13,10 @@ type Tasks struct {
 }
 
 func apiGetTasks(w http.ResponseWriter, r *http.Request) interface{} {
+	generalUserError := "An error occurred while looking up your tasks."
 	userId, ok := currentUserId(r)
 	if !ok {
-		return notifyAdminResponse("An error occurred while looking up your tasks.", errors.New("Could not retrieve the current user id."))
+		return notifyAdminResponse(generalUserError, errors.New("Could not retrieve the current user id."))
 	}
 
 	var tasks string
@@ -23,14 +24,14 @@ func apiGetTasks(w http.ResponseWriter, r *http.Request) interface{} {
 
 	err := db.QueryRow("SELECT tasks FROM users WHERE id = $1", userId).Scan(&s)
 	if err != nil {
-		return notifyAdminResponse("An error occurred while looking up your tasks.", err)
+		return notifyAdminResponse(generalUserError, err)
 	}
 	if s.Valid {
 		tasks = s.String
 	}
 
 	if tasks == "" {
-		return apiResponse{Success: true}
+		return "[]"
 	}
 
 	return tasks

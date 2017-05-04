@@ -6,23 +6,39 @@ include_utilities: true
 ---
 %p &nbsp;
 
-%form.ajax.row.weights#weights
-  .weight.columns.large-6.medium-6.template
-    .row.collapse
-      .columns.large-4.medium-3.small-2.text-right
-        .switch
-          %input.switch-input.positive{name: 'positive', type: 'checkbox'}
-          %label.switch-paddle
-      .columns.large-8.medium-9.small-10
-        %input.weight-name{type: 'text', placeholder: 'Weight Name'}
-    
+%button.button.edit-weights Edit Weights
+%form.row.display-none#edit-weights
+  .weights
+  .columns
+    %button.button.add Add
+  .columns
+    %hr
+.weight.columns.large-6.medium-6.template
+  .row.collapse
+    .columns.large-4.medium-3.small-2.text-right
+      .switch
+        %input.switch-input.positive{name: 'positive', type: 'checkbox'}
+        %label.switch-paddle
+    .columns.large-8.medium-9.small-10
+      .input-group
+        %input.weight-name.input-group-field{type: 'text', placeholder: 'Weight Name'}
+        .input-group-button
+          %button.button.delete X
 
-%a.parent-task.display-none Up
+
 %label What's Next?
 .tasks
-%form.ajax.new-task.row#new-task
-  %input.parent-id{type: 'hidden', name: 'parent-id'}
+
+
+%form.new-task#new-task
   %input.parent-id{type: 'hidden', name: 'action', value: 'new-task'}
-  .columns.large-4.medium-4
-    %input.task{type: 'text', name: 'task', required: true}
-  %button.button{type: 'submit', style: 'display: none'} +
+  .row
+    .columns.large-6.medium-6
+      %input.task{type: 'text', name: 'task', placeholder: 'Accomplishment', required: true}
+  .task-weights.row
+  .row.columns
+    %button.button.add{type: 'submit'} Add
+.task-weight.columns.large-4.medium-4.small-6.template
+  .input-group
+    %span.good-or-bad.input-group-label
+    %input.input-group-field{type: 'number'}
