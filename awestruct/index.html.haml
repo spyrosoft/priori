@@ -10,20 +10,20 @@ include_utilities: true
 %form.row.display-none#edit-weights
   .weights
   .columns
-    %button.button.add Add
+    %button.button.add Add Weight
   .columns
     %hr
 .weight.columns.large-6.medium-6.template
   .row.collapse
     .columns.large-4.medium-3.small-2.text-right
-      .switch
-        %input.switch-input.positive{name: 'positive', type: 'checkbox'}
+      .switch.good-or-bad
+        %input.switch-input{type: 'checkbox'}
         %label.switch-paddle
     .columns.large-8.medium-9.small-10
       .input-group
         %input.weight-name.input-group-field{type: 'text', placeholder: 'Weight Name'}
         .input-group-button
-          %button.button.delete X
+          %button.button.delete Delete
 
 
 %label What's Next?
@@ -37,7 +37,7 @@ include_utilities: true
       %input.task{type: 'text', name: 'task', placeholder: 'Accomplishment', required: true}
   .task-weights.row
   .row.columns
-    %button.button.add{type: 'submit'} Add
+    %button.button.add{type: 'submit'} Save
 .task-weight.columns.large-4.medium-4.small-6.template
   .input-group
     %span.good-or-bad.input-group-label

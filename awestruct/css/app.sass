@@ -185,19 +185,16 @@ $switch-height: $medium-spacing
 
 .weights
 	.switch-paddle
-		background-color: #00bb00
-	
-	input:checked~.switch-paddle
 		background-color: #bb0000
 	
-	input[type="text"]
+	input:checked~.switch-paddle
+		background-color: #00bb00
+	
+	input[type="text"],
+	.button
 		height: $switch-height
 		line-height: $switch-height
-		border-color: transparent
 		box-shadow: none
-	
-	input[type="text"]:focus
-		border-color: $fg-color-primary
 
 .task .total
 	font-weight: bold

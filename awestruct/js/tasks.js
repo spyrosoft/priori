@@ -25,7 +25,11 @@ function edit_weights() {
 	}
 }
 
-$('#edit-weights button.add').on('click', add_weight);
+$('#edit-weights button.add').on('click', add_weight_button_clicked);
+function add_weight_button_clicked(click_event) {
+	click_event.preventDefault();
+	add_weight();
+}
 function add_weight() {
 	
 }
@@ -129,27 +133,32 @@ function customize_task_template(task_clone_element, task) {
 }
 
 function customize_task_weights_template(weight_clone_element, weights, weight) {
+	
 }
 
 function append_weights(weights) {
 	var weight_template = $('.weight.template')[0];
+	var counter = 0;
 	for (var w in weights) {
-		var closure = function(clone) { customize_weight_template(clone, weights, weights[w]); };
+		var closure = function(clone) { customize_weight_template(clone, weights, w, counter); };
+		use_template(weight_template, '.weights', closure);
+		counter++;
 	}
-	use_template(weight_template, '.weights', closure);
 }
 
-function customize_weight_template(weight_clone_element, weights, weight) {
-	var weight_clone = $(weight_clone_element);
-	if (weights[weight]) {
-		weight_clone.find('.good-or-bad')
-			.addClass('good')
-			.html('+');
-	} else {
-		weight_clone.find('.good-or-bad')
-			.addClass('bad')
-			.html('-');
-	}
+function customize_weight_template(weight_clone_element, weights, weight, counter) {
+	var clone = $(weight_clone_element);
+	clone.find('.weight-name').val(weight);
+	var switch_clicked = function(click_event) {
+		console.log('yes')
+	};
+	clone.find('.good-or-bad input')
+		.attr('name', weight)
+		.attr('checked', weights[weight])
+		.attr('id', 'good-or-bad-' + counter)
+		.on('change', switch_clicked);
+	clone.find('.good-or-bad label')
+		.attr('for', 'good-or-bad-' + counter);
 }
 
 success_response_callbacks['new-task'] = new_task_success;

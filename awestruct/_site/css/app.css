@@ -170,21 +170,17 @@ ul, ol {
 /* Specific */
 /* line 187, /home/path/sites/priori/awestruct/css/app.sass */
 .weights .switch-paddle {
-  background-color: #00bb00; }
+  background-color: #bb0000; }
 /* line 190, /home/path/sites/priori/awestruct/css/app.sass */
 .weights input:checked ~ .switch-paddle {
-  background-color: #bb0000; }
+  background-color: #00bb00; }
 /* line 193, /home/path/sites/priori/awestruct/css/app.sass */
-.weights input[type="text"] {
+.weights input[type="text"], .weights .button {
   height: 2rem;
   line-height: 2rem;
-  border-color: transparent;
   box-shadow: none; }
-/* line 199, /home/path/sites/priori/awestruct/css/app.sass */
-.weights input[type="text"]:focus {
-  border-color: #000000; }
 
-/* line 202, /home/path/sites/priori/awestruct/css/app.sass */
+/* line 199, /home/path/sites/priori/awestruct/css/app.sass */
 .task .total {
   font-weight: bold;
   font-size: 200%;
