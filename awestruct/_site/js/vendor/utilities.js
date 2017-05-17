@@ -118,26 +118,45 @@ var Utilities = {
 	},
 	
 	rgbToSixHex : function( rgb ) {
-		var sixHex = '';
-		sixHex += this.decimalToHex( rgb[ 0 ] );
-		sixHex += this.decimalToHex( rgb[ 1 ] );
-		sixHex += this.decimalToHex( rgb[ 2 ] );
+		var rHex = this.padStringFront( this.decimalToHex( rgb[ 0 ] ), '0', 2 );
+		var gHex = this.padStringFront( this.decimalToHex( rgb[ 1 ] ), '0', 2 );
+		var bHex = this.padStringFront( this.decimalToHex( rgb[ 2 ] ), '0', 2 );
+		var sixHex = rHex + gHex + bHex;
 		return sixHex;
 	},
 	
-	decimalToHex : function( decimal, padLength ) {
-		var hex = decimal.toString( 16 );
-		if ( ! padLength ) { padLength = 2; }
-		while ( hex.length < padLength ) { hex = '0' + hex; }
-		return hex;
+	decimalToHex : function( decimal ) {
+		if ( typeof decimal !== 'number' ) { return undefined; }
+		return decimal.toString( 16 );
 	},
 	
-	hexToDecimal : function( hex, padLength ) {
+	hexToDecimal : function( hex ) {
 		return parseInt( hex, 16 );
 	},
 	
-	isInteger : function( integerToTest ) {
-		return integerToTest === parseInt( integerToTest );
+	padStringFront : function( string, padWith, padLength ) {
+		if ( typeof string !== 'string' ) { return undefined; }
+		var paddedString = string;
+		while ( paddedString.length < padLength ) {
+			paddedString = padWith + paddedString;
+		}
+		return paddedString;
+	},
+	
+	strictInteger : function( input ) {
+		if ( typeof input === 'number' ) {
+			if ( parseFloat( input ) === parseInt( input ) ) { return input; }
+			return undefined;
+		}
+		if ( typeof input === 'string' && input === parseInt( input ).toString() ) {
+			return parseInt( input );
+		}
+		return undefined;
+	},
+	
+	strictFloat : function( input ) {
+		if ( isFinite( input ) ) { return parseFloat( input ); }
+		return undefined;
 	},
 	
 	objectEqual : function( object1, object2 ) {
@@ -154,8 +173,7 @@ var Utilities = {
 			if ( typeof object2[ key ] === 'object' ) {
 				objectsAreEqual = this.objectEqual( object1[ key ], object2[ key ] );
 				if ( ! objectsAreEqual ) { break; }
-			}
-			if ( object1[ key ] !== object2[ key ] ) {
+			} else if ( object1[ key ] !== object2[ key ] ) {
 				objectsAreEqual = false;
 				break;
 			}
@@ -164,25 +182,23 @@ var Utilities = {
 		return objectsAreEqual;
 	},
 	
-	//Not memory efficient
 	arrayEqual : function( array1, array2 ) {
-		return array1.join( '~~' ) === array2.join( '~~' );
-	},
-	
-	requestBrowserFullScreen : function() {
-		var body = document.body;
-		if( body.requestFullScreen ) { body.requestFullScreen(); }	
-		else if( body.webkitRequestFullScreen ) { body.webkitRequestFullScreen(); }	
-		else if( body.mozRequestFullScreen ) { body.mozRequestFullScreen(); }
+		return this.objectEqual( array1, array2 );
 	},
 	
 	formatHumanReadableDollars : function( number ) {
-		if ( parseFloat( number ) != number ) { throw 'The argument provided was not a number: ' + number; }
-		return '$' + number.toFixed( 2 );
+		number = this.strictFloat( number );
+		if ( number === undefined ) { throw 'The argument provided was not a number: ' + number; }
+		number = number.toFixed( 2 ).split( '.' );
+		return '$'
+			+ number[ 0 ].replace( /(\d)(?=(\d{3})+$)/g, '$1,' )
+			+ '.'
+			+ number[ 1 ];
 	},
 	
 	convertDollarsToCents : function( dollars ) {
-		if ( parseFloat( dollars ) != dollars ) { throw 'The argument provided was not a dollar amount: ' + dollars; }
+		dollars = this.strictFloat( dollars );
+		if ( dollars !== undefined ) { throw 'The argument provided was not a dollar amount: ' + dollars; }
 		return Math.ceil( parseFloat( dollars ) * 100 );
 	},
 	
@@ -190,10 +206,10 @@ var Utilities = {
 		var full_url = window.location.href;
 		if ( full_url.indexOf( '?' ) === -1 ) { return {}; }
 		var get_parameter_string = full_url.substring( full_url.indexOf( '?' ) + 1, full_url.length );
-		return this.parseGetParameters(get_parameter_string);
+		return this.parseGetParameters( get_parameter_string );
 	},
-
-	parseGetParameters : function(get_parameter_string) {
+	
+	parseGetParameters : function( get_parameter_string ) {
 		var get_parameters = {};
 		var get_parameters_and_values = get_parameter_string.split( '&' );
 		for ( var i in get_parameters_and_values ) {
@@ -204,18 +220,10 @@ var Utilities = {
 		}
 		return get_parameters;
 	},
-
-	escapeHTML : function(unescaped) {
-		return String(unescaped)
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;');
-	},
-
-	parseJSON : function(json_to_parse) {
+	
+	parseJSON : function( json_to_parse ) {
 		try {
-			var parsed = JSON.parse(json_to_parse);
+			var parsed = JSON.parse( json_to_parse );
 			return parsed;
 		} catch(e) {}
 		return undefined;
